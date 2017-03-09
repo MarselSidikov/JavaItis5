@@ -1,5 +1,7 @@
 class Program {
 	public static void main(String[] args) {
+		// on i-position  at array is count of humans with i-age
+		// countHumansWithAges[4] = 5; - 5 humans has age 4
 		int countHumansWithAges[] = new int[120];
 
 		Human human1 = new Human("Marsel", 23);
@@ -17,13 +19,28 @@ class Program {
 
 
 		for (int i = 0; i < humans.length; i++) {
-			countHumansWithAges[humans[i].getAge()]++;
+			int currentAge = humans[i].getAge();
+			countHumansWithAges[currentAge]++;
 		}
 
 		for (int i = 0; i < countHumansWithAges.length; i++) {
 			if (countHumansWithAges[i] != 0) {
 				System.out.println(i + " " + countHumansWithAges[i]);
 			}
+		}
+
+		for (int i = humans.length - 1; i >= 0; i--) { // O(N)
+			for (int j = 0; j < i; j++) { // O(N + N-1 + N-2 + N-3..) = O(N)
+				if (humans[j].getAge() < humans[j+1].getAge()) {
+					Human temp = humans[j];
+					humans[j] = humans[j+1];
+					humans[j+1] = temp;
+				}
+			}
+		}
+
+		for (int i = 0; i < humans.length; i++) {
+			System.out.println(humans[i].getAge() + " " + humans[i].getName());
 		}
 	}
 }
