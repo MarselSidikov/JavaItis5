@@ -1,6 +1,8 @@
-package ru.itis.compare;
+package ru.itis.compare.models;
 
-public class Human implements Comparable {
+import ru.itis.compare.interfaces.Comparable;
+
+public class Human implements Comparable<Human> {
     private int id;
     private int age;
     private String name;
@@ -40,17 +42,7 @@ public class Human implements Comparable {
         return this.name + " " + this.age + " " + this.id;
     }
 
-    /**
-     * Метод сравнивает два объекта-человека по возрасту
-     * @param that другой человек
-     * @return 0 - если равны, отрицательное число - меньше, положительное - больше
-     */
     public int compareTo(Human that) {
         return this.age - that.age;
-    }
-
-    @Override
-    public int compareTo(Object that) {
-        return this.age - ((Human)that).age;
     }
 }

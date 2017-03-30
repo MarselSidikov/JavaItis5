@@ -1,6 +1,8 @@
-package ru.itis.compare;
+package ru.itis.compare.models;
 
-public class Triangle implements Comparable {
+import ru.itis.compare.interfaces.Comparable;
+
+public class Triangle implements Comparable<Triangle> {
     private int a;
     private int b;
     private int c;
@@ -30,10 +32,6 @@ public class Triangle implements Comparable {
         System.out.println(calcPerimeter());
     }
 
-    public int compareTo(Triangle that) {
-        return (int)(this.calcPerimeter() - that.calcPerimeter());
-    }
-
     @Override
     public String toString() {
         return "Triangle{" +
@@ -43,8 +41,7 @@ public class Triangle implements Comparable {
                 '}';
     }
 
-    @Override
-    public int compareTo(Object that) {
-        return (int)(this.calcPerimeter() - ((Triangle)that).calcPerimeter());
+    public int compareTo(Triangle that) {
+        return (int)(this.calcPerimeter() - (that).calcPerimeter());
     }
 }

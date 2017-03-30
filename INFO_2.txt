@@ -311,3 +311,52 @@ Transport
 сравнение в лексикографическом порядке.
 гуглить: лексикографический порядок
 НЕ ГУГЛИТЬ И НЕ СМОТРЕТЬ - Java Comparable и класс String
+27) Реализовать бинарный поиск в упроядоченном массиве
+public static <V> V binarySearch(V[] objects, Comparator<V> comparator)
+public static <V> V binarySearch(Comparable<V> objects[]);
+
+Обобщения - дженерики - подстановочные типы
+
+try - помечаем блок кода, где возможна исключительная ситуация
+catch - указываем тип возможной ошибки, ее объект и инструкции по ее разрешению
+
+ArithmeticException - ошибка арифмитичского выражения
+StackOverflow - переполнение стека вызовов
+FileNotFoundException - не найден файл
+
+Error - системные ошибки
+VirtualMachineError - потомок Error
+StackOverflowError - потомок VirtualMachineError
+OutOfMemory - потомок VirtualMachineError
+
+RuntimeException - непроверяемые исключения
+К непроверяемым исключениям также относят Error
+
+ArithmethicException - непроверяемое, потомок RuntimeException
+IllegalArgumentException - непроверяемое, потомок RuntimeException
+Exception - проверяемые исключения
+FileNotFoundException - проверяемое, потомок Exception
+
+Проверяемое исключение вы ОБЯЗАНЫ ОБРАБОТАТЬ try-catch
+Если метод генерирует проверяемое исключение, вы обязаны поставить throws
+throw new - выброс исключение
+throws - вы говорите, что метод может быть источником проверяемого исключения
+
+1) Структуры управления
+2) Типы данных в Java
+3) Массивы
+4) Классы и объекты
+5) Инкапсуляиция
+6) Члены класса
+7) Статические члены класса
+8) Инициализаторы
+9) Наследование - абстрактные классы
+10) Полиморфизм - интерфейсы
+11) Класс Object
+12) Класс String
+13) Comparable + Compare
+14) Обобщения
+15) Исключения
+16) Обобщенный ArrayList
+
+27) Обобщенный LinkedList

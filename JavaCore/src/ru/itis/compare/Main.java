@@ -1,18 +1,14 @@
 package ru.itis.compare;
 
-import java.net.HttpURLConnection;
+import ru.itis.compare.comparators.HumanIdComparator;
+import ru.itis.compare.models.Human;
+import ru.itis.compare.models.Student;
+import ru.itis.compare.models.Triangle;
+
+import java.util.ArrayList;
 
 public class Main {
 
-    public static Object findMin(Comparable objects[]) {
-        Comparable minObject = objects[0];
-        for (int i = 1; i < objects.length; i++) {
-            if (minObject.compareTo(objects[i]) > 0) {
-                minObject = objects[i];
-            }
-        }
-        return minObject;
-    }
     public static void main(String[] args) {
         Human marsel = new Human(1, 23, "Marsel");
         Human robert = new Human(2, 30, "Robert");
@@ -27,6 +23,7 @@ public class Main {
                 robert, kirill, denis, artur,
                 arturRianov, andrey, ayaz};
 
+
         Human min = humans[0];
         for (int i = 1; i < humans.length; i++) {
             if (min.compareTo(humans[i]) > 0) {
@@ -34,6 +31,8 @@ public class Main {
             }
         }
         System.out.println(min);
+
+
         Triangle triangles[] = new Triangle[] {
                 new Triangle(2, 3, 4),
                 new Triangle(5, 6,8),
@@ -42,6 +41,7 @@ public class Main {
                 new Triangle(1, 2,1),
         };
 
+
         Triangle minTriangle = triangles[0];
         for (int i = 1; i < triangles.length; i++) {
             if (minTriangle.compareTo(triangles[i]) > 0) {
@@ -49,10 +49,31 @@ public class Main {
             }
         }
 
+
         System.out.println(minTriangle);
-        Human newMin = (Human)findMin(humans);
+        Human newMin = Collections.findMin(humans);
         System.out.println(newMin);
-        Triangle newMinTriangle = (Triangle)findMin(triangles);
+        Triangle newMinTriangle = Collections.findMin(triangles);
         System.out.println(newMinTriangle);
+
+        Triangle triangle = new Triangle(2, 3, 4);
+        Human human = new Human(1, 23, "Marsel");
+
+        Human minIdHuman = Collections.findMin(humans, new HumanIdComparator());
+        System.out.println(minIdHuman.getName());
+
+        // Human someHuman = findMin(humans, new TriangleAreaComparator());
+
+        Student students[] = {
+                new Student("Marsel", 515),
+                new Student("Igor", 512),
+                new Student("Dima", 515),
+                new Student("Gosha", 519),
+                new Student("Denis", 519),
+                new Student("Kirill", 520)
+        };
+
+        Student student = Collections.findMin(students, null);
+
     }
 }

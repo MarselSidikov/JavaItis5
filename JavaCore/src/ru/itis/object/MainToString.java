@@ -1,6 +1,6 @@
 package ru.itis.object;
 
-import ru.itis.compare.Human;
+import ru.itis.compare.models.Human;
 
 public class MainToString {
     public static void main(String[] args) {
