@@ -398,3 +398,21 @@ Writer
 28) 1) Дома: заменить User[] на ArrayList<T>
     2) Есть проблема - вызывав findAll один раз, второй раз его не вызовишь.
     Решить эту проблему
+
+Пусть имеется обобщенный тип A<T>, тогда:
+Если объявили, A<Animal>
+То A<Animal> это потомок "сырого типа" A.
+Но, A<Herbivore> не является потомком A<Animal>, несмотря
+на то, что Herbivore потомок Animal
+
+1) Если объявили List<A>, и при этом C - потомок A, и B - потомок A
+List<C> и List<B> - потомки List, но не потомки List<A>.
+При этом - List<? extends A> - предок для List<C> и List<B>, но при этом
+класть туда ничего нельзя, только получить, причем тип A.
+Пусть D - потомок C.
+Значит объекты типа D могут хранить списки типа List<A>, List<C>,
+List<D>. Их всех можно преобразовать к типу List<? super D> и класть
+туда данные, но только типа D. Вытащить нельзя.
+
+https://docs.oracle.com/javase/tutorial/java/generics/upperBounded.html
+https://docs.oracle.com/javase/tutorial/java/generics/lowerBounded.html
