@@ -466,3 +466,13 @@ Writer - работает с символами
 2) потомок OutputStreamWriter - работает с потоком
   2.1) потомок FileWriter - работает с потоком файловым
 В BufferedWriter можно передать другой Writer для буфферизации
+
+ДЗ:
+В DataStorage - доделать update.
+Сделать AutoDataStorage - find, findAll, save, update, delete
+Auto
+- id
+- модель
+- цвет
+- пробег
+autos.txt
