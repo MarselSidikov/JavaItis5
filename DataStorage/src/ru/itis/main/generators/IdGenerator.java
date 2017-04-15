@@ -33,9 +33,7 @@ public class IdGenerator {
         int newId = lastGeneratedId + 1;
         lastGeneratedId = newId;
         try {
-            BufferedWriter writer =
-                    new BufferedWriter(
-                            new FileWriter(idFileName));
+            Writer writer = new FileWriter(idFileName);
             writer.write(newId + "");
             writer.close();
         } catch (IOException e) {

@@ -5,6 +5,7 @@ import ru.itis.main.models.User;
 
 import java.io.*;
 import java.util.Random;
+import java.util.concurrent.locks.ReadWriteLock;
 
 public class UsersDataStorage {
 
@@ -20,14 +21,18 @@ public class UsersDataStorage {
 
     public int save(User user) {
         try {
+            // на вход принимаем можель без id
+            // генерируем id
             user.setId(idGenerator.generateId());
-            FileOutputStream outputStream =
-                    new FileOutputStream(fileName, true);
-
+            // открываем файловый поток для дозаписи
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+            // преобразуем пользователя в строку через toString
             String userDataAsString = user.toString();
-            byte userDataAsBytes[] = (userDataAsString + '\n').getBytes();
-            outputStream.write(userDataAsBytes);
-            outputStream.close();
+            // преобразуем строку в массив байтов
+            // записываем в файл
+            writer.write(userDataAsString);
+            writer.newLine();
+            writer.close();
             return user.getId();
         } catch (FileNotFoundException e) {
             System.err.println("File not found");
@@ -40,9 +45,9 @@ public class UsersDataStorage {
 
     public User find(int id) {
         try {
+
             BufferedReader reader =
                     new BufferedReader(new FileReader(fileName));
-
             String currentUserData = reader.readLine();
 
             while (currentUserData != null) {
