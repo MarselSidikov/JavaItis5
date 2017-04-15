@@ -4,6 +4,8 @@ import ru.itis.main.generators.IdGenerator;
 import ru.itis.main.models.User;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.ReadWriteLock;
 
@@ -45,7 +47,6 @@ public class UsersDataStorage {
 
     public User find(int id) {
         try {
-
             BufferedReader reader =
                     new BufferedReader(new FileReader(fileName));
             String currentUserData = reader.readLine();
@@ -74,6 +75,13 @@ public class UsersDataStorage {
         } catch (IOException e) {
             System.err.println("IO Exception");
         }
+        return null;
+    }
+
+    public List<User> findAll() {
+        ArrayList<User> allUsers = new ArrayList<>();
+        // TODO: реализовать чтение всех пользователей из файла
+        // и добавление их в список
         return null;
     }
 }
