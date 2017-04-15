@@ -16,5 +16,6 @@ public class Main {
         int id = usersDataStorage.save(ayaz);
         System.out.println(id);
         System.out.println(usersDataStorage.find(6));
+        // HELLO
     }
 }
