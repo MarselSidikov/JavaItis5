@@ -17,5 +17,9 @@ public class Main {
         System.out.println(id);
         System.out.println(usersDataStorage.find(6));
         // HELLO
+        usersDataStorage.delete(9);
+        User forUpdate = new User("maksim", "qwerty10", "Maksim", 99);
+        forUpdate.setId(12);
+        usersDataStorage.update(forUpdate);
     }
 }
