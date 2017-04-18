@@ -143,8 +143,8 @@ public class UsersDataStorage {
      * @param user новые данные пользователя. id - там уже указан
      */
     public void update(User user) {
-
     }
+
     private void flushFromBuffer(List<User> buffer) {
         try {
             BufferedWriter writer = new BufferedWriter(
