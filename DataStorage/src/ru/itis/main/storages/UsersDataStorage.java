@@ -75,6 +75,8 @@ public class UsersDataStorage {
         } catch (IOException e) {
             System.err.println("IO Exception");
         }
+        // TODO: создать Exception UserNotFoundException наследованный от Runtime
+        // TODO: выбросить UserNotFound
         return null;
     }
 

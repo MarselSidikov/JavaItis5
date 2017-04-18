@@ -69,4 +69,15 @@ public class User {
                 this.name + " " +
                 this.age;
     }
+
+    public boolean equals(Object object) {
+        if (object instanceof User) {
+            User that = (User)object;
+            return this.id == that.id &&
+                    this.age == that.age &&
+                    this.name.equals(that.name) &&
+                    this.login.equals(that.login) &&
+                    this.password.equals(that.password);
+        } return false;
+    }
 }
