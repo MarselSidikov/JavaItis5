@@ -1,6 +1,8 @@
 package ru.itis.main.storages;
 
+import ru.itis.main.exceptions.UserNotFoundException;
 import ru.itis.main.generators.IdGenerator;
+import ru.itis.main.generators.SingletonIdGenerator;
 import ru.itis.main.models.User;
 
 import java.io.*;
@@ -14,18 +16,16 @@ public class UsersDataStorage {
     // поле, в котором хранится имя файла
     // в котором содежатся данные о пользователях
     private String fileName;
-    private IdGenerator idGenerator;
 
-    public UsersDataStorage(String fileName, IdGenerator idGenerator) {
+    public UsersDataStorage(String fileName) {
         this.fileName = fileName;
-        this.idGenerator = idGenerator;
     }
 
     public int save(User user) {
         try {
             // на вход принимаем можель без id
             // генерируем id
-            user.setId(idGenerator.generateId());
+            user.setId(SingletonIdGenerator.getGenerator().generateId());
             // открываем файловый поток для дозаписи
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
             // преобразуем пользователя в строку через toString
@@ -75,9 +75,7 @@ public class UsersDataStorage {
         } catch (IOException e) {
             System.err.println("IO Exception");
         }
-        // TODO: создать Exception UserNotFoundException наследованный от Runtime
-        // TODO: выбросить UserNotFound
-        return null;
+        throw new UserNotFoundException("User with id: " + id + " not found");
     }
 
     public List<User> findAll() {

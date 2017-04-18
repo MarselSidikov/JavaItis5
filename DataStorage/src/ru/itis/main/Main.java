@@ -1,6 +1,8 @@
 package ru.itis.main;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import ru.itis.main.generators.IdGenerator;
+import ru.itis.main.generators.SingletonIdGenerator;
 import ru.itis.main.models.User;
 import ru.itis.main.storages.UsersDataStorage;
 
@@ -9,17 +11,11 @@ import java.io.FileOutputStream;
 public class Main {
 
     public static void main(String[] args) {
-        IdGenerator idGenerator = new IdGenerator("id.txt");
-        UsersDataStorage usersDataStorage = new UsersDataStorage("users.txt", idGenerator);
-        User ayaz = new User("ayazTheBest",
-                "qwerty008", "Ayaz", 25);
-        int id = usersDataStorage.save(ayaz);
-        System.out.println(id);
-        System.out.println(usersDataStorage.find(6));
-        // HELLO
-        usersDataStorage.delete(9);
-        User forUpdate = new User("maksim", "qwerty10", "Maksim", 99);
-        forUpdate.setId(12);
-        usersDataStorage.update(forUpdate);
+        UsersDataStorage usersDataStorage = new UsersDataStorage("users.txt");
+        UsersDataStorage usersDataStorage1 = new UsersDataStorage("users.txt");
+        User user = new User("marsel", "qwerty007", "Marsel", 23);
+        usersDataStorage.save(user);
+        usersDataStorage1.save(user);
+        // TODO создать две DataStorage с разными idGenerator и протестируйте
     }
 }
