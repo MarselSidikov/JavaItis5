@@ -1,4 +1,4 @@
-package ru.itis;
+package ru.itis.lists;
 
 /**
  * 20.04.2017
@@ -15,7 +15,7 @@ package ru.itis;
  * - Удалить
  * - Получить по номеру
  */
-public interface List<T> {
+public interface List<T> extends Iterable<T> {
     /**
      * Добавление элемента в конец списка
      * @param element добавляемый элемент
@@ -49,4 +49,6 @@ public interface List<T> {
     int indexOf(T element);
 
     void addToBegin(T element);
+
+    int size();
 }

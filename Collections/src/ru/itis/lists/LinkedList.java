@@ -1,4 +1,6 @@
-package ru.itis;
+package ru.itis.lists;
+
+import java.util.Iterator;
 
 /**
  * 20.04.2017
@@ -10,17 +12,45 @@ package ru.itis;
 public class LinkedList<T> implements List<T> {
 
     private class Node {
+
         private T value;
         private Node next;
-
         public Node(T value) {
             this.value = value;
+        }
+
+    }
+
+    // Итератор связного списка
+    private class LinkedListIterator implements Iterator<T> {
+
+        // итератор всегда помнит текущий узел, а если точнее, тот
+        // который следует вернуть
+        private Node current;
+
+        LinkedListIterator(Node current) {
+            this.current = current;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            // копируем значение из current
+            T value = current.value;
+            // current сдвигаем
+            current = current.next;
+            // возвращаем значение
+            return value;
         }
     }
 
     private Node head;
-    private Node last;
 
+    private Node last;
     private int count;
 
     public LinkedList() {
@@ -47,6 +77,7 @@ public class LinkedList<T> implements List<T> {
             this.last.next = newNode;
             this.last = newNode;
         }
+        count++;
     }
 
     @Override
@@ -61,7 +92,7 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        if (index < count && index > 0) {
+        if (index < count && index >= 0) {
             Node current = this.head;
             int i = 0;
 
@@ -76,7 +107,16 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public int indexOf(T element) {
-        return 0;
+        int index = 0;
+        Node current = this.head;
+        while (current != null) {
+            if (current.value.equals(element)) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
     }
 
     @Override
@@ -84,7 +124,15 @@ public class LinkedList<T> implements List<T> {
 
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator(head);
+    }
 
+    @Override
+    public int size() {
+        return count;
+    }
 
 
 }

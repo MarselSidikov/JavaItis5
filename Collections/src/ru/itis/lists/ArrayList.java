@@ -1,4 +1,6 @@
-package ru.itis;
+package ru.itis.lists;
+
+import java.util.Iterator;
 
 /**
  * 20.04.2017
@@ -69,5 +71,15 @@ public class ArrayList<T> implements List<T> {
             }
             elements[0] = element;
         }
+    }
+
+    @Override
+    public int size() {
+        return count;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return null;
     }
 }

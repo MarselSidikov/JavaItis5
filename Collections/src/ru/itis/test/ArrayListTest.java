@@ -1,7 +1,9 @@
-package ru.itis;
+package ru.itis.test;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.itis.lists.ArrayList;
+import ru.itis.models.Contract;
 
 import static org.junit.Assert.*;
 
