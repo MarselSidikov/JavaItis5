@@ -21,6 +21,10 @@ public class ArrayList<T> implements List<T> {
      */
     private int count;
 
+    public ArrayList() {
+        count = 0;
+        elements = new Object[MAX_SIZE];
+    }
 
     @Override
     public void add(T element) {
@@ -47,6 +51,11 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public int indexOf(T element) {
-        return 0;
+        for (int i = 0; i < elements.length; i++) {
+            if (elements[i].equals(element)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
