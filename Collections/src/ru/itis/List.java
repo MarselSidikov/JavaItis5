@@ -47,4 +47,6 @@ public interface List<T> {
      * @return
      */
     int indexOf(T element);
+
+    void addToBegin(T element);
 }

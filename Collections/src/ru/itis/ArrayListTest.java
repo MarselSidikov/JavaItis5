@@ -34,4 +34,21 @@ public class ArrayListTest {
         assertEquals(actual, expected);
     }
 
+    @Test
+    public void getTest() throws Exception {
+        Contract actual = contractArrayList.get(2);
+        Contract expected = CONTRACT_2;
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void addToBeginTest() throws Exception {
+        contractArrayList.addToBegin(CONTRACT_2);
+        Contract actual = contractArrayList.get(0);
+        Contract expected = CONTRACT_2;
+
+        assertEquals(expected, actual);
+    }
+
 }

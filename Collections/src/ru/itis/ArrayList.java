@@ -46,7 +46,9 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        return null;
+        if (index < count && index >= 0) {
+            return (T)elements[index];
+        } else throw new IndexOutOfBoundsException();
     }
 
     @Override
@@ -57,5 +59,15 @@ public class ArrayList<T> implements List<T> {
             }
         }
         return -1;
+    }
+
+    @Override
+    public void addToBegin(T element) {
+        if (count < MAX_SIZE) {
+            for (int i = count; i > 0; i--) {
+                elements[i] = elements[i - 1];
+            }
+            elements[0] = element;
+        }
     }
 }
