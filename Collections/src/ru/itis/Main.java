@@ -4,6 +4,8 @@ import ru.itis.lists.LinkedList;
 import ru.itis.lists.List;
 import ru.itis.models.Human;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Main {
