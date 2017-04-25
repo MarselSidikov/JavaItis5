@@ -1,11 +1,10 @@
 package ru.itis;
 
+import ru.itis.lists.ArrayList;
 import ru.itis.lists.LinkedList;
 import ru.itis.lists.List;
 import ru.itis.models.Human;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Main {
@@ -39,5 +38,10 @@ public class Main {
         for (Human human : humanLinkedList) {
             System.out.println(human);
         }
+
+        List<Human> humanList = new ArrayList<>();
+        Human humans[] = {marsel, marat, victoriya};
+        humanList.addAll(humans);
+        humanList.addAllElements(marat, marsel, victoriya);
     }
 }

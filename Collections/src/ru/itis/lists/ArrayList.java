@@ -79,6 +79,16 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
+    public void addAll(T[] elements) {
+        // TODO: сделать
+    }
+
+    @Override
+    public void addAllElements(T... elements) {
+        // elements - массив
+    }
+
+    @Override
     public Iterator<T> iterator() {
         return null;
     }

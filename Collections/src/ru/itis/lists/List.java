@@ -51,4 +51,8 @@ public interface List<T> extends Iterable<T> {
     void addToBegin(T element);
 
     int size();
+
+    void addAll(T elements[]);
+
+    void addAllElements(T ... elements);
 }
