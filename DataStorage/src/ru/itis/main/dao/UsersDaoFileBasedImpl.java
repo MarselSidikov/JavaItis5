@@ -1,24 +1,24 @@
-package ru.itis.main.storages;
+package ru.itis.main.dao;
 
 import ru.itis.main.exceptions.UserNotFoundException;
-import ru.itis.main.generators.IdGenerator;
 import ru.itis.main.generators.SingletonIdGenerator;
+import ru.itis.main.mappers.RowMapper;
 import ru.itis.main.models.User;
+import ru.itis.main.utils.FileDaoQueryUtils;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.locks.ReadWriteLock;
 
-public class UsersDataStorage {
+public class UsersDaoFileBasedImpl implements UsersDao {
 
     // поле, в котором хранится имя файла
     // в котором содежатся данные о пользователях
     private String fileName;
+    private FileDaoQueryUtils utils;
 
-    public UsersDataStorage(String fileName) {
+    public UsersDaoFileBasedImpl(String fileName) {
         this.fileName = fileName;
+        this.utils = new FileDaoQueryUtils();
     }
 
     public int save(User user) {
@@ -45,69 +45,38 @@ public class UsersDataStorage {
         return -1;
     }
 
-    public User find(int id) {
-        try {
-            BufferedReader reader =
-                    new BufferedReader(new FileReader(fileName));
-            String currentUserData = reader.readLine();
-
-            while (currentUserData != null) {
-                String currentUserDataAsArray[] =
-                        currentUserData.split(" ");
-
-                int currentUserId =
-                        Integer.parseInt(currentUserDataAsArray[0]);
-
-                if (currentUserId == id) {
-                    User founded = new User(
-                            currentUserDataAsArray[1],
-                            currentUserDataAsArray[2],
-                            currentUserDataAsArray[3],
-                            Integer.parseInt(currentUserDataAsArray[4]));
-                    founded.setId(id);
-                    reader.close();
-                    return founded;
-                }
-                currentUserData = reader.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found");
-        } catch (IOException e) {
-            System.err.println("IO Exception");
+    // userRowMapper - объектная переменная
+    // содержащая анонимный класс
+    private RowMapper<User> userRowMapper = new RowMapper<User>() {
+        @Override
+        public User mapRow(String row) {
+            String rowAsArray[] = row.split(" ");
+            User founded = new User(
+                    Integer.parseInt(rowAsArray[0]),
+                    rowAsArray[1],
+                    rowAsArray[2],
+                    rowAsArray[3],
+                    Integer.parseInt(rowAsArray[4]));
+            return founded;
         }
-        throw new UserNotFoundException("User with id: " + id + " not found");
+    };
+
+    // поиск объекта по id
+    public User find(int id) {
+        // делаем запрос - найти в файле с именем fileName
+        // используя userRowMapper человека, у которого в 0-м
+        // столбце стоит id
+        List<User> users =  utils.findByValue(fileName,
+                userRowMapper, 0, id);
+
+        if (users.size() == 0) {
+            throw new UserNotFoundException("User with id <" + id + "> not found");
+        } else {
+            return users.get(0);
+        }
     }
 
     public List<User> findAll() {
-        // TODO: реализовать чтение всех пользователей из файла
-        try {
-            ArrayList<User> addUsers = new ArrayList<>();
-            BufferedReader reader =
-                    new BufferedReader(new FileReader(fileName));
-
-            String currentUserData = reader.readLine();
-
-            while (currentUserData != null) {
-                String currentUserDataAsArray[] =
-                        currentUserData.split(" ");
-
-                int currentUserId =
-                        Integer.parseInt(currentUserDataAsArray[0]);
-                User founded = new User(
-                        currentUserDataAsArray[1],
-                        currentUserDataAsArray[2],
-                        currentUserDataAsArray[3],
-                        Integer.parseInt(currentUserDataAsArray[4]));
-                founded.setId(currentUserId);
-                addUsers.add(founded);
-                currentUserData = reader.readLine();
-            }
-            return addUsers;
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found");
-        } catch (IOException e) {
-            System.err.println("IO Exception");
-        }
         return null;
     }
 
@@ -143,6 +112,16 @@ public class UsersDataStorage {
      * @param user новые данные пользователя. id - там уже указан
      */
     public void update(User user) {
+    }
+
+    public List<User> findAllByName(String name) {
+        return utils.findByValue(fileName,
+                userRowMapper, 3, name);
+    }
+
+    public List<User> findAllByAge(int age) {
+        return utils.findByValue(fileName,
+                userRowMapper, 4, age);
     }
 
     private void flushFromBuffer(List<User> buffer) {
