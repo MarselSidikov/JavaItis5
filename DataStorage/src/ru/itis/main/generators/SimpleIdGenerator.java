@@ -5,25 +5,12 @@ import java.util.Properties;
 
 /**
  * 18.04.2017
- * SingletonIdGenerator
+ * SimpleIdGenerator
  *
  * @author Sidikov Marsel (First Software Engineering Platform)
  * @version v1.0
  */
-public class SingletonIdGenerator {
-    private static SingletonIdGenerator instance;
-
-    static {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream("resources\\app.properties"));
-            String fileName = properties.getProperty("id.generator.file");
-            instance = new SingletonIdGenerator(fileName);
-        } catch (IOException e) {
-            System.err.println("IO Exception");
-        }
-    }
-
+public class SimpleIdGenerator implements IdGenerator {
     // имя файла, в котором лежит последний
     // сгенерированный id
     private String idFileName;
@@ -31,7 +18,7 @@ public class SingletonIdGenerator {
     // поле, в котором содержится последний сгенерированный id
     private int lastGeneratedId;
 
-    private SingletonIdGenerator(String idFileName) {
+    public SimpleIdGenerator(String idFileName) {
         this.idFileName = idFileName;
         try {
             BufferedReader bufferedReader
@@ -45,11 +32,6 @@ public class SingletonIdGenerator {
             System.err.println("IO Exception");
         }
     }
-
-    public static SingletonIdGenerator getGenerator() {
-        return instance;
-    }
-
     /**
      * Генерирует новый id,всегда уникальный
      * и всегда на один больше, чем последний сгенерированный

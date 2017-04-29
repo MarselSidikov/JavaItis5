@@ -1,25 +1,25 @@
 package ru.itis.main.services;
 
+import ru.itis.main.dao.UsersDao;
 import ru.itis.main.models.User;
 import ru.itis.main.dao.UsersDaoFileBasedImpl;
 
 import java.util.List;
 
-public class UserService {
+public class UsersServiceImpl implements UsersService {
 
-    private UsersDaoFileBasedImpl usersDaoFileBasedImpl;
+    private UsersDao usersDao;
 
-    public UserService(UsersDaoFileBasedImpl usersDaoFileBasedImpl) {
-        this.usersDaoFileBasedImpl = usersDaoFileBasedImpl;
+    public UsersServiceImpl(UsersDao usersDao) {
+        this.usersDao = usersDao;
     }
 
     public void register(User user) {
-        usersDaoFileBasedImpl.save(user);
+        usersDao.save(user);
     }
 
     public boolean isRegistered(String userName) {
-        // вытащили всех пользователей
-        List<User> users = usersDaoFileBasedImpl.findAll();
+        List<User> users = usersDao.findAll();
 
         for (int i = 0; i < users.size(); i++) {
             // смотрим i-го пользователя и проверяем совпало или нет

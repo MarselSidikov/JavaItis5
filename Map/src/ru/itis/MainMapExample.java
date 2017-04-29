@@ -1,9 +1,18 @@
 package ru.itis;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class Main {
-
+/**
+ * 29.04.2017
+ * MainMapExample
+ *
+ * @author Sidikov Marsel (First Software Engineering Platform)
+ * @version v1.0
+ */
+public class MainMapExample {
     public static void main(String[] args) {
         Human marsel = new Human(23, "Marsel");
         Human marat = new Human(24, "Marat");
@@ -14,7 +23,7 @@ public class Main {
         Human kirill = new Human(25, "Kirill");
         Human robert = new Human(18, "Robert");
 
-        HashMap<String, Human> map = new HashMap<>();
+        Map<String, Human> map = new HashMap<>();
 
         map.put("Marsel", marsel);
         map.put("Marat", marat);
@@ -25,13 +34,16 @@ public class Main {
         map.put("Denis", denis);
         map.put("Artur", artur);
 
-        int hashCode = "Marsel".hashCode();
-        System.out.println(hashCode);
-        hashCode = hashCode >>> 16; // делаем число положительным
-        System.out.println(hashCode);
-        hashCode = "Maratkas".hashCode() ^ hashCode;
-        System.out.println(hashCode);
-        int position = 100 & hashCode;
-        System.out.println(position);
+        Human denisFromMap = map.get("Denis");
+
+        Set<String> humanSet = map.keySet();
+        Collection<Human> humen = map.values();
+
+        Set<Map.Entry<String, Human>> entries = map.entrySet();
+
+        for (Map.Entry<String, Human> entry : entries) {
+            System.out.println(entry.getKey() + " " + entry.getValue().getAge());
+        }
+
     }
 }

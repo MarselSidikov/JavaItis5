@@ -7,5 +7,14 @@ package ru.itis.main.models;
  * @author Sidikov Marsel (First Software Engineering Platform)
  * @version v1.0
  */
-public class Auto {
+public class Auto implements Model {
+    @Override
+    public void setId(int id) {
+
+    }
+
+    @Override
+    public int getId() {
+        return 0;
+    }
 }

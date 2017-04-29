@@ -1,6 +1,7 @@
 package ru.itis.main.dao;
 
 import ru.itis.main.models.Auto;
+import ru.itis.main.utils.FileDaoQueryTemplate;
 
 import java.util.List;
 
@@ -12,6 +13,15 @@ import java.util.List;
  * @version v1.0
  */
 public class AutoDaoFileBasedImpl implements AutoDao {
+
+    private String fileName;
+    private FileDaoQueryTemplate template;
+
+    public AutoDaoFileBasedImpl(String fileName, FileDaoQueryTemplate template) {
+        this.fileName = fileName;
+        this.template = template;
+    }
+
     @Override
     public Auto find(int id) {
         return null;
@@ -39,6 +49,11 @@ public class AutoDaoFileBasedImpl implements AutoDao {
 
     @Override
     public List<Auto> findAllByUsed(boolean isUsed) {
+        return null;
+    }
+
+    @Override
+    public List<Auto> findAllAutoByUserId(int userId) {
         return null;
     }
 }

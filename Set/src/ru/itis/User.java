@@ -1,8 +1,8 @@
-package ru.itis.main.models;
+package ru.itis;
 
 import java.util.Objects;
 
-public class User implements Model {
+public class User {
     private int id;
     private String login;
     private String password;
