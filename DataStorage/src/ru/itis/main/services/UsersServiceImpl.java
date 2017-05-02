@@ -1,12 +1,15 @@
 package ru.itis.main.services;
 
 import ru.itis.main.dao.UsersDao;
-import ru.itis.main.models.User;
 import ru.itis.main.dao.UsersDaoFileBasedImpl;
+import ru.itis.main.models.User;
 
 import java.util.List;
 
-public class UsersServiceImpl implements UsersService {
+/**
+ * Created by Аюпов Аяз on 28.04.2017.
+ */
+public class UsersServiceImpl implements UsersService{
 
     private UsersDao usersDao;
 
@@ -14,20 +17,19 @@ public class UsersServiceImpl implements UsersService {
         this.usersDao = usersDao;
     }
 
-    public void register(User user) {
+    public void register(User user){
         usersDao.save(user);
     }
 
-    public boolean isRegistered(String userName) {
+    public boolean isRegistered(String userName){
+        // вытащили всех пользователей
         List<User> users = usersDao.findAll();
-
-        for (int i = 0; i < users.size(); i++) {
-            // смотрим i-го пользователя и проверяем совпало или нет
-            if (users.get(i).getName().equals(userName)) {
+        // смотрим i-го пользователя и проверяем совпадения
+        for(int i =0; i < users.size(); i++){
+            if(users.get(i).getName().equals(userName)){
                 return true;
             }
         }
-
         return false;
     }
 }

@@ -1,13 +1,18 @@
 package ru.itis.main.utils;
 
-import ru.itis.main.mapper.RowMapper;
+import ru.itis.main.mappers.RowMapper;
+import ru.itis.main.models.Model;
 
 import java.util.List;
 
 /**
- * Created by Tommy on 30.04.2017.
+ * 29.04.2017
+ * FileDaoQueryTemplate
+ *
+ * @author Sidikov Marsel (First Software Engineering Platform)
+ * @version v1.0
  */
-public interface FileDaoQueryTemplate{
+public interface FileDaoQueryTemplate {
     /**
      * Вытаскивает все данные из файла как список моделей
      * @param fileName имя файла
@@ -16,6 +21,7 @@ public interface FileDaoQueryTemplate{
      * @return список моделей
      */
     <T> List<T> findAll(String fileName, RowMapper<T> mapper);
+
     /**
      * Возвращает список тех моделей, которые удовлетворяют условию по значению
      * @param fileName имя файла
@@ -25,9 +31,11 @@ public interface FileDaoQueryTemplate{
      * @param <T> тип модели
      * @return
      */
-    <T>List<T> findByValue(String fileName, RowMapper<T> mapper, int valueColumn, Object value);
-    <T> int save(String fileName, T model);
-    <T> void update(String fileName,  T model);
-     void deleteByValue(String fileName, int valueColumn, Object value );
+    <T> List<T> findByValue(String fileName, RowMapper<T> mapper,
+                                   int valueColumn,
+                                   Object value);
 
+    <T> int save(String fileName, T model);
+    <T> void update(String fileName, T model);
+    void deleteByValue(String fileName, int valueColumn, Object value);
 }

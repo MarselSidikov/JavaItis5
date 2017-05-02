@@ -1,11 +1,7 @@
 package ru.itis.main.generators;
 
 /**
- * 29.04.2017
- * IdGenerator
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
+ * Created by Tommy on 30.04.2017.
  */
 public interface IdGenerator {
     int generateId();
