@@ -1,14 +1,13 @@
-package ru.itis.main.dao;
+package ru.itis.main.dao.files;
 
+import ru.itis.main.dao.UsersDao;
 import ru.itis.main.exception.UserNotFoundException;
-import ru.itis.main.generators.SimpleIdGenerator;
 import ru.itis.main.mapper.RowMapper;
 import ru.itis.main.models.Auto;
+import ru.itis.main.models.AutoBuilder;
 import ru.itis.main.models.User;
 import ru.itis.main.utils.FileDaoQueryTemplate;
-import ru.itis.main.utils.FileDaoQueryTemplateImpl;
 
-import java.io.*;
 import java.util.*;
 
 public class UsersDaoFileBasedImpl implements UsersDao {
@@ -44,13 +43,16 @@ public class UsersDaoFileBasedImpl implements UsersDao {
         @Override
         public Auto mapRow(String row) {
             String autoDataAsArray[] = row.split(" ");
-            Auto auto = new Auto(Integer.parseInt(autoDataAsArray[0]),
-                    autoDataAsArray[1],
-                    autoDataAsArray[2],
-                    Double.parseDouble(autoDataAsArray[3]),
-                    Boolean.valueOf(autoDataAsArray[4]),
-                    Integer.parseInt(autoDataAsArray[5]));
-            User owner = usersMap.get(auto.getIdOwner());
+            Auto auto = new AutoBuilder()
+                    .setId(Integer.parseInt(autoDataAsArray[0]))
+                    .setModel(autoDataAsArray[1])
+                    .setColor(autoDataAsArray[2])
+                    .setCarMileage(Double.parseDouble(autoDataAsArray[3]))
+                    .setUsed(Boolean.valueOf(autoDataAsArray[4]))
+                    .setIdOwner(usersMap.get(Integer.parseInt(autoDataAsArray[5])))
+                    .createAuto();
+            User owner = usersMap.get(auto.getOwner().getId());
+            auto.setOwner(owner);
             owner.getAutos().add(auto);
             return auto;
         }

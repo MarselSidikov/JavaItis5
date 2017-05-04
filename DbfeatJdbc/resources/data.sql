@@ -12,8 +12,10 @@ INSERT INTO group_user (login,password,name,age)
 VALUES ('Ayvar','qwerty013','Айвар',24);
 INSERT INTO group_user (login,password,name,age)
 VALUES ('Robert','qwerty014','Роберт',18);
-INSERT INTO auto(model, color, carmileage, used, owner_id)
+INSERT INTO group_user(login, password, name, age)
+VALUES ('Denis', 'qwerty010', 'Денис', 22);
 
+INSERT INTO auto(model, color, carmileage, used, owner_id)
 VALUES ('Moskvich', 'White', 100000.0, TRUE, 8);
 INSERT INTO auto(model, color, carmileage, used, owner_id)
 VALUES ('Mersedes', 'Black', 0, FALSE , 7);

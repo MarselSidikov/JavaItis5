@@ -1,17 +1,15 @@
-package ru.itis.main.dao;
+package ru.itis.main.dao.files;
 
+import ru.itis.main.dao.AutoDao;
 import ru.itis.main.exception.AutoNotFoundException;
-import ru.itis.main.generators.SimpleIdGenerator;
 import ru.itis.main.mapper.RowMapper;
 import ru.itis.main.models.Auto;
+import ru.itis.main.models.AutoBuilder;
 import ru.itis.main.models.User;
 import ru.itis.main.utils.FileDaoQueryTemplate;
-import ru.itis.main.utils.FileDaoQueryTemplateImpl;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 
 public class AutoDaoFileBasedImpl implements AutoDao {
@@ -27,13 +25,8 @@ public class AutoDaoFileBasedImpl implements AutoDao {
         @Override
         public Auto mapRow(String row) {
             String autoDataAsArray[] = row.split(" ");
-            Auto auto = new Auto(Integer.parseInt(autoDataAsArray[0]),
-                    autoDataAsArray[1],
-                    autoDataAsArray[2],
-                    Double.parseDouble(autoDataAsArray[3]),
-                    Boolean.valueOf(autoDataAsArray[4]),
-                    Integer.parseInt(autoDataAsArray[5]));
-            return auto;
+          //  Auto auto = new AutoBuilder().setId(Integer.parseInt(autoDataAsArray[0])).setModel(autoDataAsArray[1]).setColor(autoDataAsArray[2]).setCarMileage(Double.parseDouble(autoDataAsArray[3])).setUsed(Boolean.valueOf(autoDataAsArray[4])).setIdOwner(Integer.parseInt(autoDataAsArray[5])).createAuto();
+            return null;
         }
     };
 
@@ -72,9 +65,10 @@ public class AutoDaoFileBasedImpl implements AutoDao {
         List<Auto> autos = template.findAll(fileName, autoRowMapper);
         List<Auto> usedAutos = new ArrayList<>();
         for (int i = 0; i < autos.size(); i++) {
+            /*
             if (autos.get(i).isUsed() || autos.get(i).getCarMileage() > 10) {
                 usedAutos.add(autos.get(i));
-            }
+            }*/
         }
         return usedAutos;
     }
