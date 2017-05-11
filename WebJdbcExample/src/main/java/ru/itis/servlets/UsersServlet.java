@@ -34,6 +34,7 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*
         PrintWriter writer = response.getWriter();
         writer.print("<table>");
         List<User> users = usersDao.findUsersByAge(24);
@@ -45,5 +46,10 @@ public class UsersServlet extends HttpServlet {
             writer.print("</tr>");
         }
         writer.print("</table>");
+         */
+        // в запрос кладу атрибут users, который из себя представляет список людей
+        request.setAttribute("users", usersDao.findUsersByAge(24));
+        // я пераправляю запрос на jsp-страницу
+        request.getRequestDispatcher("/jsp/users.jsp").forward(request, response);
     }
 }
