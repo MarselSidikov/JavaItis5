@@ -39,6 +39,10 @@ public class UsersDaoJdbcImpl implements UsersDao {
     private final String SQL_SELECT_USER_BY_ID =
             "SELECT * FROM group_user WHERE id = ?";
 
+    //language=SQL
+    private final String SQL_DELETE_USER_BY_ID =
+            "DELETE FROM group_user WHERE id = ?";
+
     private JdbcTemplate template;
     private NamedParameterJdbcTemplate namedParameterTemplate;
 
@@ -90,7 +94,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     @Override
     public void delete(int id) {
-
+        template.update(SQL_DELETE_USER_BY_ID, id);
     }
 
     public List<User> findUsersByAge(int age) {

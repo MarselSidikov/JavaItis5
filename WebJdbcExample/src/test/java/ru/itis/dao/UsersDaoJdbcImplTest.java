@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.dao.EmptyResultDataAccessException;
 import ru.itis.models.User;
 
 import static org.junit.Assert.*;
@@ -39,11 +40,16 @@ public class UsersDaoJdbcImplTest {
     }
 
     @Test
-    public void find() throws Exception {
+    public void testFind() throws Exception {
         User expected = USER_6;
         User actual = usersDao.find(USER_6_ID);
 
         assertEquals(expected, actual);
     }
 
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void testDelete() {
+        usersDao.delete(USER_6_ID);
+        usersDao.find(USER_6_ID);
+    }
 }
