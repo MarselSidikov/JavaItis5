@@ -2,7 +2,10 @@ package ru.itis.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import ru.itis.models.User;
 
 import javax.sql.DataSource;
@@ -19,13 +22,22 @@ import java.util.Map;
  * @author Sidikov Marsel (First Software Engineering Platform)
  * @version v1.0
  */
-public class UsersDaoJdbcImpl {
+public class UsersDaoJdbcImpl implements UsersDao {
 
+    //language=SQL
+    private final String SQL_SELECT_USERS = "SELECT * FROM group_user";
     //language=SQL
     private final String SQL_SELECT_USERS_BY_AGE = "SELECT * FROM group_user WHERE age = ?";
     //language=SQL
     private final String SQL_SELECT_USERS_BY_NAME_AND_AGE = "SELECT * FROM group_user " +
             "WHERE name = :name AND age = :age";
+    //language=SQL
+    private final String SQL_INSERT_USER = "INSERT INTO group_user(name, age, login, password) VALUES" +
+            "(:name, :age, :login, :password)";
+
+    //language=SQL
+    private final String SQL_SELECT_USER_BY_ID =
+            "SELECT * FROM group_user WHERE id = ?";
 
     private JdbcTemplate template;
     private NamedParameterJdbcTemplate namedParameterTemplate;
@@ -47,6 +59,39 @@ public class UsersDaoJdbcImpl {
             return user;
         }
     };
+
+    @Override
+    public List<User> findAll() {
+        return template.query(SQL_SELECT_USERS, userRowMapper);
+    }
+
+    @Override
+    public User find(int id) {
+        return template.queryForObject(SQL_SELECT_USER_BY_ID, new Object[]{id}, userRowMapper);
+    }
+
+    @Override
+    public int save(User model) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", model.getName());
+        params.addValue("age", model.getAge());
+        params.addValue("password", model.getPassword());
+        params.addValue("login", model.getLogin());
+        KeyHolder holder = new GeneratedKeyHolder();
+        namedParameterTemplate.update(SQL_INSERT_USER, params, holder, new String[]{"id"});
+        Number number = holder.getKey();
+        return number.intValue();
+    }
+
+    @Override
+    public void update(User model) {
+
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
 
     public List<User> findUsersByAge(int age) {
         return template.query(SQL_SELECT_USERS_BY_AGE, userRowMapper, age);

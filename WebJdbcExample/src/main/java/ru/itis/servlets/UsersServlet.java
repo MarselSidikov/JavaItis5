@@ -2,8 +2,11 @@ package ru.itis.servlets;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 import ru.itis.dao.UsersDaoJdbcImpl;
 import ru.itis.models.User;
+import ru.itis.services.UsersService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,33 +26,53 @@ import java.util.List;
  */
 public class UsersServlet extends HttpServlet {
 
-    private UsersDaoJdbcImpl usersDao;
+    private UsersService usersService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        ApplicationContext context = new ClassPathXmlApplicationContext("ru.itis\\context.xml");
-        usersDao = context.getBean(UsersDaoJdbcImpl.class);
+        GenericXmlApplicationContext context = new GenericXmlApplicationContext();
+        ConfigurableEnvironment environment = context.getEnvironment();
+        environment.addActiveProfile("dev");
+        context.load("ru.itis\\context.xml");
+        context.refresh();
+        usersService = context.getBean(UsersService.class);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*
-        PrintWriter writer = response.getWriter();
-        writer.print("<table>");
-        List<User> users = usersDao.findUsersByAge(24);
-        for (int i = 0; i < users.size(); i++) {
-            writer.print("<tr>");
-            writer.print("<td>" + users.get(i).getId() + "</td>");
-            writer.print("<td>" + users.get(i).getName() + "</td>");
-            writer.print("<td>" + users.get(i).getAge() + "</td>");
-            writer.print("</tr>");
-        }
-        writer.print("</table>");
-         */
         // в запрос кладу атрибут users, который из себя представляет список людей
-        request.setAttribute("users", usersDao.findUsersByAge(24));
+        String userAge = request.getParameter("age");
+        String userName = request.getParameter("name");
+
+        if (userAge != null && userName != null) {
+            int userAgeAsInt = Integer.parseInt(userAge);
+            request.setAttribute("users", usersService.getAllUsersByNameAndAge(userName, userAgeAsInt));
+        } else if (userAge != null && userName == null) {
+            int userAgeAsInt = Integer.parseInt(userAge);
+            request.setAttribute("users", usersService.getAllUsersByAge(userAgeAsInt));
+        } else {
+            request.setAttribute("users", usersService.getAll());
+        }
+
         // я пераправляю запрос на jsp-страницу
         request.getRequestDispatcher("/jsp/users.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("name");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        int age = Integer.parseInt(req.getParameter("age"));
+
+        User newUser = new User.Builder()
+                .name(name)
+                .login(login)
+                .password(password)
+                .age(age)
+                .build();
+
+        usersService.register(newUser);
     }
 }

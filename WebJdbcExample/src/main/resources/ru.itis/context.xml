@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 
-    <bean id="usersDao" class="ru.itis.dao.UsersDaoJdbcImpl">
-        <constructor-arg ref="dataSource"/>
-    </bean>
+    <beans profile="dev">
+        <bean id="usersService" class="ru.itis.services.UsersServiceImpl">
+            <constructor-arg ref="usersDao"/>
+        </bean>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/itis"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="qwerty007"/>
-    </bean>
+        <bean id="usersDao" class="ru.itis.dao.UsersDaoJdbcImpl">
+            <constructor-arg ref="dataSource"/>
+        </bean>
+
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="org.postgresql.Driver"/>
+            <property name="url" value="jdbc:postgresql://localhost:5432/itis"/>
+            <property name="username" value="postgres"/>
+            <property name="password" value="qwerty007"/>
+        </bean>
+    </beans>
+
+    <beans profile="test">
+
+        <bean id="usersServiceTest" class="ru.itis.services.UsersServiceImpl">
+            <constructor-arg ref="usersDaoTest"/>
+        </bean>
+
+        <bean id="usersDaoTest" class="ru.itis.dao.UsersDaoJdbcImpl">
+            <constructor-arg ref="testDataSource"/>
+        </bean>
+
+        <jdbc:embedded-database id="testDataSource" type="H2">
+            <jdbc:script location="classpath:ru.itis.test.sql/group_user_schema.sql"/>
+            <jdbc:script location="classpath:ru.itis.test.sql/group_user_data.sql"/>
+        </jdbc:embedded-database>
+    </beans>
+
 </beans>
