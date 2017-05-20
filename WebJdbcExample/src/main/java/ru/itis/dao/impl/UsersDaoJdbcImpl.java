@@ -1,11 +1,14 @@
-package ru.itis.dao;
+package ru.itis.dao.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+import ru.itis.dao.UsersDao;
 import ru.itis.models.User;
 
 import javax.sql.DataSource;
@@ -17,11 +20,12 @@ import java.util.Map;
 
 /**
  * 06.05.2017
- * ru.itis.dao.UsersDaoJdbcImpl
+ * ru.itis.dao.impl.UsersDaoJdbcImpl
  *
  * @author Sidikov Marsel (First Software Engineering Platform)
  * @version v1.0
  */
+@Repository
 public class UsersDaoJdbcImpl implements UsersDao {
 
     //language=SQL
@@ -46,6 +50,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
     private JdbcTemplate template;
     private NamedParameterJdbcTemplate namedParameterTemplate;
 
+    @Autowired
     public UsersDaoJdbcImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
         this.namedParameterTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -84,6 +89,7 @@ public class UsersDaoJdbcImpl implements UsersDao {
         KeyHolder holder = new GeneratedKeyHolder();
         namedParameterTemplate.update(SQL_INSERT_USER, params, holder, new String[]{"id"});
         Number number = holder.getKey();
+        // model.setId(number.IntValue);
         return number.intValue();
     }
 
