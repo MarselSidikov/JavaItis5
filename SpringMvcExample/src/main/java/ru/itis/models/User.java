@@ -8,6 +8,9 @@ public class User {
     private String name;
     private int age;
 
+    public User() {
+    }
+
     /**
      * Статический класс - реализация паттерна Builder
      */
@@ -104,6 +107,26 @@ public class User {
                     && this.name.equals(that.name)
                     && this.age == that.age;
         } return false;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }
 
