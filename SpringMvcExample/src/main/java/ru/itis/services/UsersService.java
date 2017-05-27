@@ -1,5 +1,6 @@
 package ru.itis.services;
 
+import ru.itis.models.Auto;
 import ru.itis.models.User;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface UsersService {
     List<User> getAllUsersByAge(int age);
     List<User> getAll();
     List<User> getAllUsersByNameAndAge(String name, int age);
+
+    List<Auto> getUserAutosByUsed(int userId, boolean isUsed);
 }

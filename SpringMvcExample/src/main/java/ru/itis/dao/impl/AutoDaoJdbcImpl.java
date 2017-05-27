@@ -1,5 +1,8 @@
 package ru.itis.dao.impl;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -35,6 +38,9 @@ public class AutoDaoJdbcImpl implements AutoDao {
                     "VALUES(:model, :color, :carmileage, :used)";
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Autowired
     public AutoDaoJdbcImpl(DataSource dataSource) {
@@ -85,5 +91,26 @@ public class AutoDaoJdbcImpl implements AutoDao {
     @Override
     public void delete(int id) {
 
+    }
+
+    @Override
+    public List<Auto> findAllByUserAndByUsed(int userId, boolean isUsed) {
+        Session session = getSession();
+        session.beginTransaction();
+        List<Auto> autos = session.createQuery("from Auto auto where auto.owner.id = :userId and used = :isUsed")
+                .setParameter("userId", userId).setParameter("isUsed", isUsed).list();
+        session.getTransaction().commit();
+        return autos;
+    }
+
+    private Session getSession() {
+        Session session;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+
+        return session;
     }
 }

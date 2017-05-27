@@ -2,7 +2,9 @@ package ru.itis.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.itis.dao.AutoDao;
 import ru.itis.dao.UsersDao;
+import ru.itis.models.Auto;
 import ru.itis.models.User;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class UsersServiceImpl implements UsersService {
 
     @Autowired
     private UsersDao usersDao;
+
+    @Autowired
+    private AutoDao autoDao;
 
     @Override
     public void register(User user) {
@@ -38,5 +43,10 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public List<User> getAllUsersByNameAndAge(String name, int age) {
         return usersDao.findUsersByNameAndAge(name, age);
+    }
+
+    @Override
+    public List<Auto> getUserAutosByUsed(int userId, boolean isUsed) {
+        return autoDao.findAllByUserAndByUsed(userId, isUsed);
     }
 }
