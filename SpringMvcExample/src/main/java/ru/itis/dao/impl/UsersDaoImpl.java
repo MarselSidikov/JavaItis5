@@ -1,5 +1,8 @@
 package ru.itis.dao.impl;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -26,7 +29,7 @@ import java.util.Map;
  * @version v1.0
  */
 @Repository
-public class UsersDaoJdbcImpl implements UsersDao {
+public class UsersDaoImpl implements UsersDao {
 
     //language=SQL
     private final String SQL_SELECT_USERS = "SELECT * FROM group_user";
@@ -51,7 +54,10 @@ public class UsersDaoJdbcImpl implements UsersDao {
     private NamedParameterJdbcTemplate namedParameterTemplate;
 
     @Autowired
-    public UsersDaoJdbcImpl(DataSource dataSource) {
+    private SessionFactory sessionFactory;
+
+    @Autowired
+    public UsersDaoImpl(DataSource dataSource) {
         this.template = new JdbcTemplate(dataSource);
         this.namedParameterTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -71,7 +77,11 @@ public class UsersDaoJdbcImpl implements UsersDao {
 
     @Override
     public List<User> findAll() {
-        return template.query(SQL_SELECT_USERS, userRowMapper);
+        Session session = getSession();
+        session.beginTransaction();
+        List<User> result =  session.createQuery("from User", User.class).list();
+        session.getTransaction().commit();
+        return result;
     }
 
     @Override
@@ -112,5 +122,16 @@ public class UsersDaoJdbcImpl implements UsersDao {
         params.put("name", name);
         params.put("age", age);
         return namedParameterTemplate.query(SQL_SELECT_USERS_BY_NAME_AND_AGE, params, userRowMapper);
+    }
+
+    private Session getSession() {
+        Session session;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+
+        return session;
     }
 }

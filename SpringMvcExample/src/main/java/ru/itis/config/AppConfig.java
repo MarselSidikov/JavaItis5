@@ -2,10 +2,12 @@ package ru.itis.config;
 
 
 import freemarker.template.TemplateException;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -58,5 +60,14 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         viewResolver.setContentType("text/html; charset=windows-1251");
         viewResolver.setOrder(1);
         return viewResolver;
+    }
+
+    @Bean
+    public SessionFactory sessionFactory() {
+        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
+        builder.addResource("ru.itis\\hibernate\\User.hbm.xml");
+        builder.addResource("ru.itis\\hibernate\\Auto.hbm.xml");
+        builder.setProperty("hibernate.dialect","org.hibernate.dialect.PostgreSQL82Dialect");
+        return builder.buildSessionFactory();
     }
 }

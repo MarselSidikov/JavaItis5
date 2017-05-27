@@ -9,7 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.itis.converter.Converter;
 import ru.itis.dao.UsersDao;
+import ru.itis.dto.UserDto;
 import ru.itis.models.User;
 
 import java.util.ArrayList;
@@ -41,7 +43,9 @@ public class UsersJsonController {
     @RequestMapping(value = "/annotation/users/json", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public List<User> getAllUsers() {
-        return usersDao.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> users = usersDao.findAll();
+        List<UserDto> userDtos = Converter.convertListUser(users);
+        return userDtos;
     }
 }

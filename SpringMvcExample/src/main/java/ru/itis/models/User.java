@@ -1,5 +1,7 @@
 package ru.itis.models;
 
+import java.util.List;
+
 public class User {
 
     private int id;
@@ -7,6 +9,7 @@ public class User {
     private String password;
     private String name;
     private int age;
+    private List<Auto> autos;
 
     public User() {
     }
@@ -127,6 +130,14 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public List<Auto> getAutos() {
+        return autos;
+    }
+
+    public void setAutos(List<Auto> autos) {
+        this.autos = autos;
     }
 }
 

@@ -7,6 +7,7 @@ public class Auto {
     private String color;
     private double carMileage;
     private boolean isUsed;
+    private User owner;
 
     public Auto(int id, String model, String color, double carMileage, boolean used) {
         this.id = id;
@@ -14,6 +15,9 @@ public class Auto {
         this.color = color;
         this.carMileage = carMileage;
         this.isUsed = used;
+    }
+
+    public Auto() {
     }
 
     public static class Builder {
@@ -69,8 +73,36 @@ public class Auto {
         return carMileage;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setCarMileage(double carMileage) {
+        this.carMileage = carMileage;
+    }
+
     public boolean getIsUsed() {
-        return this.isUsed;
+        return isUsed;
+    }
+
+    public void setIsUsed(boolean used) {
+        isUsed = used;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override
