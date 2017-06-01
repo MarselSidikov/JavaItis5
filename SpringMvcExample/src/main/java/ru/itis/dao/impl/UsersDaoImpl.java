@@ -16,8 +16,10 @@ import ru.itis.dao.UsersDao;
 import ru.itis.models.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -82,13 +84,15 @@ public class UsersDaoImpl implements UsersDao {
     };
 
     @Override
+    @Transactional
     public List<User> findAll() {
 //        Session session = getSession();
 //        session.beginTransaction();
 //        List<User> result =  session.createQuery("from User", User.class).list();
 //        session.getTransaction().commit();
 //        return result;
-        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+        List<User> users = entityManager.createQuery("SELECT u FROM User u join fetch u.autos", User.class).getResultList();
+        return users;
     }
 
     @Override
@@ -98,6 +102,7 @@ public class UsersDaoImpl implements UsersDao {
 
     @Override
     public int save(User model) {
+        /**
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", model.getName());
         params.addValue("age", model.getAge());
@@ -108,6 +113,10 @@ public class UsersDaoImpl implements UsersDao {
         Number number = holder.getKey();
         // model.setId(number.IntValue);
         return number.intValue();
+         **/
+        entityManager.persist(model);
+        entityManager.flush();
+        return model.getId();
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Auto {
     @Column(name = "used")
     private boolean isUsed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 

@@ -1,5 +1,7 @@
 package ru.itis.models;
 
+import org.hibernate.annotations.LazyCollection;
+
 import javax.persistence.*;
 import java.util.List;
 
