@@ -1,14 +1,29 @@
 package ru.itis.models;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "group_user")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private String login;
+
+    @Column
     private String password;
+
+    @Column
     private String name;
+
+    @Column
     private int age;
+
+    @OneToMany(mappedBy = "owner")
     private List<Auto> autos;
 
     public User() {

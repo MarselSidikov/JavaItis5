@@ -1,12 +1,29 @@
 package ru.itis.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "auto")
 public class Auto {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private String model;
+
+    @Column
     private String color;
+
+    @Column(name = "carmileage")
     private double carMileage;
+
+    @Column(name = "used")
     private boolean isUsed;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     public Auto(int id, String model, String color, double carMileage, boolean used) {

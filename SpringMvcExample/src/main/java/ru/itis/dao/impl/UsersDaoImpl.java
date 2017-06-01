@@ -11,9 +11,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itis.dao.UsersDao;
 import ru.itis.models.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,8 +56,11 @@ public class UsersDaoImpl implements UsersDao {
     private JdbcTemplate template;
     private NamedParameterJdbcTemplate namedParameterTemplate;
 
-    @Autowired
-    private SessionFactory sessionFactory;
+//    @Autowired
+//    private SessionFactory sessionFactory;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public UsersDaoImpl(DataSource dataSource) {
@@ -77,11 +83,12 @@ public class UsersDaoImpl implements UsersDao {
 
     @Override
     public List<User> findAll() {
-        Session session = getSession();
-        session.beginTransaction();
-        List<User> result =  session.createQuery("from User", User.class).list();
-        session.getTransaction().commit();
-        return result;
+//        Session session = getSession();
+//        session.beginTransaction();
+//        List<User> result =  session.createQuery("from User", User.class).list();
+//        session.getTransaction().commit();
+//        return result;
+        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
     @Override
@@ -124,14 +131,14 @@ public class UsersDaoImpl implements UsersDao {
         return namedParameterTemplate.query(SQL_SELECT_USERS_BY_NAME_AND_AGE, params, userRowMapper);
     }
 
-    private Session getSession() {
-        Session session;
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-        }
-
-        return session;
-    }
+//    private Session getSession() {
+//        Session session;
+//        try {
+//            session = sessionFactory.getCurrentSession();
+//        } catch (HibernateException e) {
+//            session = sessionFactory.openSession();
+//        }
+//
+//        return session;
+//    }
 }

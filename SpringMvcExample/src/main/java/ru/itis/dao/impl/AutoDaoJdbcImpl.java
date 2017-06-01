@@ -39,8 +39,8 @@ public class AutoDaoJdbcImpl implements AutoDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired
-    private SessionFactory sessionFactory;
+//    @Autowired
+//    private SessionFactory sessionFactory;
 
     @Autowired
     public AutoDaoJdbcImpl(DataSource dataSource) {
@@ -95,22 +95,23 @@ public class AutoDaoJdbcImpl implements AutoDao {
 
     @Override
     public List<Auto> findAllByUserAndByUsed(int userId, boolean isUsed) {
-        Session session = getSession();
-        session.beginTransaction();
-        List<Auto> autos = session.createQuery("from Auto auto where auto.owner.id = :userId and used = :isUsed")
-                .setParameter("userId", userId).setParameter("isUsed", isUsed).list();
-        session.getTransaction().commit();
-        return autos;
+//        Session session = getSession();
+//        session.beginTransaction();
+//        List<Auto> autos = session.createQuery("from Auto auto where auto.owner.id = :userId and used = :isUsed")
+//                .setParameter("userId", userId).setParameter("isUsed", isUsed).list();
+//        session.getTransaction().commit();
+//        return autos;
+        return null;
     }
 
-    private Session getSession() {
-        Session session;
-        try {
-            session = sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            session = sessionFactory.openSession();
-        }
-
-        return session;
-    }
+//    private Session getSession() {
+//        Session session;
+//        try {
+//            session = sessionFactory.getCurrentSession();
+//        } catch (HibernateException e) {
+//            session = sessionFactory.openSession();
+//        }
+//
+//        return session;
+//    }
 }
