@@ -20,14 +20,10 @@ import java.io.IOException;
  * @version v1.0
  */
 public class TokenAuthFilter extends GenericFilterBean {
-    private static final String header = "Auth-Token";
+    private static final String AUTH_TOKEN = "Auth-Token";
 
     private AuthenticationManager authenticationManager;
 
-    /**
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    **/
 
     public TokenAuthFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -35,17 +31,23 @@ public class TokenAuthFilter extends GenericFilterBean {
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
+        // перехватили запрос
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         System.out.println(httpServletRequest.getRequestURI());
         try {
-            String headerValue = httpServletRequest.getHeader(header);
-
+            // вытащили заголовок
+            String headerValue = httpServletRequest.getHeader(AUTH_TOKEN);
+            // если запрос не требует защиты
             if (isNotRequiringProtection(httpServletRequest)) {
+                // filterChain - цепочка фильров
+                // даем доступ дальше
                 filterChain.doFilter(servletRequest, servletResponse);
             } else if (headerValue == null || headerValue.equals("")) {
                 throw new IllegalArgumentException("Token not found");
             } else {
+                // выполняет аутентификацию с этим токеном
                 authenticationManager.authenticate(new TokenAuthentication(headerValue));
+                // если manager не дал ошибки - разрешаем дальше
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         } catch (AuthenticationException authenticationException) {

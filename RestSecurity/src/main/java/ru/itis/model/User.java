@@ -1,5 +1,7 @@
 package ru.itis.model;
 
+import javax.persistence.*;
+
 /**
  * 25.01.17
  * User
@@ -7,12 +9,26 @@ package ru.itis.model;
  * @author Sidikov Marsel (First Software Engineering Platform)
  * @version v1.0
  */
+@Entity
+@Table(name = "itis_user")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private String login;
+
+    @Column(name = "password_hash")
     private String hashPassword;
+
+    @Column
     private int age;
+
+    @Column(name = "user_name")
     private String name;
+
+    @Column(name = "token")
     private String token;
 
     public User() {

@@ -5,12 +5,16 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itis.dao.UsersDao;
 import ru.itis.dto.UserDataForRegistrationDto;
 import ru.itis.dto.UserDto;
 import ru.itis.model.User;
 import ru.itis.security.utils.TokenGenerator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static ru.itis.converter.Converter.convert;
@@ -49,6 +53,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    @Transactional
     public String login(String password, String login) {
         // TODO: проверить, найден ли пользователь
         User registeredUser = usersDao.findByLogin(login);
@@ -65,6 +70,8 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public List<User> getUsers() {
-        return usersDao.findAll();
+        List<User> users = new ArrayList<>();
+        usersDao.findAll().forEach(users::add);
+        return users;
     }
 }
