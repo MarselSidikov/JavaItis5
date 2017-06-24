@@ -24,7 +24,6 @@ public class TokenAuthFilter extends GenericFilterBean {
 
     private AuthenticationManager authenticationManager;
 
-
     public TokenAuthFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
