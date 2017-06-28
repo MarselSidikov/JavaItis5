@@ -5,11 +5,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.itis.dto.MessageDto;
 import ru.itis.dto.UserDataForRegistrationDto;
 import ru.itis.dto.UserDto;
 import ru.itis.model.User;
 import ru.itis.service.UsersService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +48,8 @@ import java.util.List;
 @RestController
 public class UsersController {
 
+    private List<MessageDto> messages = new ArrayList<>();
+
     @Autowired
     private UsersService usersService;
 
@@ -71,5 +75,18 @@ public class UsersController {
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(usersService.getUsers(), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/messages")
+    public void postMessage(@RequestBody MessageDto message) {
+        System.out.println(message.getMessage());
+        messages.add(message);
+    }
+
+    @GetMapping("/messages")
+    public List<MessageDto> getMessages() {
+        List<MessageDto> messages = new ArrayList<>(this.messages);
+        this.messages.clear();
+        return messages;
     }
 }
