@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.dto.MessageDto;
+import ru.itis.dto.MessagesDto;
 import ru.itis.dto.UserDataForRegistrationDto;
 import ru.itis.dto.UserDto;
 import ru.itis.model.User;
@@ -84,9 +85,15 @@ public class UsersController {
     }
 
     @GetMapping("/messages")
-    public List<MessageDto> getMessages() {
+    public MessagesDto getMessages() {
+        while (messages.size() == 0) {
+        }
+        System.out.println(Thread.currentThread().getName());
+        System.out.println("REQUEST FOR MESSAGES");
         List<MessageDto> messages = new ArrayList<>(this.messages);
+        MessagesDto response = new MessagesDto();
+        response.setMessages(messages);
         this.messages.clear();
-        return messages;
+        return response;
     }
 }
