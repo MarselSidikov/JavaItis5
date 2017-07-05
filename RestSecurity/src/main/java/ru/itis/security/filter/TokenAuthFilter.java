@@ -36,6 +36,10 @@ public class TokenAuthFilter extends GenericFilterBean {
         try {
             // вытащили заголовок
             String headerValue = httpServletRequest.getHeader(AUTH_TOKEN);
+            if (httpServletRequest.getRequestURI().startsWith("/echoHandler")) {
+                headerValue = httpServletRequest.getParameter("token");
+                System.out.println(headerValue);
+            }
             // если запрос не требует защиты
             if (isNotRequiringProtection(httpServletRequest)) {
                 // filterChain - цепочка фильров
@@ -57,6 +61,8 @@ public class TokenAuthFilter extends GenericFilterBean {
     private boolean isNotRequiringProtection(HttpServletRequest request) {
         return request.getRequestURI().startsWith("/users") && request.getMethod().equals("POST")
                 || request.getRequestURI().endsWith("favicon.ico")
-                || request.getRequestURI().startsWith("/login") && request.getMethod().equals("POST");
+                || request.getRequestURI().startsWith("/login") && request.getMethod().equals("POST")
+                || request.getRequestURI().equals("/index.html") && request.getMethod().equals("GET")
+                || request.getRequestURI().startsWith("/echoHandler") && request.getMethod().equals("GET");
     }
 }

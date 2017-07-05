@@ -6,13 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.dto.MessageDto;
-import ru.itis.dto.MessagesDto;
 import ru.itis.dto.UserDataForRegistrationDto;
 import ru.itis.dto.UserDto;
 import ru.itis.model.User;
+import ru.itis.service.ChatService;
 import ru.itis.service.UsersService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,10 +48,11 @@ import java.util.List;
 @RestController
 public class UsersController {
 
-    private List<MessageDto> messages = new ArrayList<>();
-
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private ChatService sessionsService;
 
     /**
      * Регистрация пользователя
@@ -78,22 +78,11 @@ public class UsersController {
         return new ResponseEntity<>(usersService.getUsers(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/messages")
-    public void postMessage(@RequestBody MessageDto message) {
-        System.out.println(message.getMessage());
-        messages.add(message);
-    }
-
-    @GetMapping("/messages")
-    public MessagesDto getMessages() {
-        while (messages.size() == 0) {
-        }
-        System.out.println(Thread.currentThread().getName());
-        System.out.println("REQUEST FOR MESSAGES");
-        List<MessageDto> messages = new ArrayList<>(this.messages);
-        MessagesDto response = new MessagesDto();
-        response.setMessages(messages);
-        this.messages.clear();
-        return response;
+    @PostMapping("/chats/{chat-id}")
+    public ResponseEntity<Object> postMessage(@RequestBody MessageDto message,
+                                              @PathVariable("chat-id") int chatId) {
+        // TODO: сохранить в базу данных сообщений
+        sessionsService.sendMessageToChat(chatId, message);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
