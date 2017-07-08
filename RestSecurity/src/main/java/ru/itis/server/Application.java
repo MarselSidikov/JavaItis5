@@ -1,20 +1,16 @@
 package ru.itis.server;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import ru.itis.handlers.EchoHandler;
-
-import javax.sql.DataSource;
+import ru.itis.handlers.AuthHandler;
 
 /**
  * 25.01.17
@@ -24,8 +20,6 @@ import javax.sql.DataSource;
  * @version v1.0
  */
 @SpringBootApplication
-//@EnableAutoConfiguration(exclude = {
-//        org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class})
 @ComponentScan("ru.itis.config")
 @EnableWebSocket
 public class Application extends SpringBootServletInitializer implements
@@ -39,12 +33,12 @@ public class Application extends SpringBootServletInitializer implements
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(echoWebSocketHandler(), "/echoHandler");
+        registry.addHandler(authHandler(), "/authHandler");
     }
 
     @Bean
-    public WebSocketHandler echoWebSocketHandler() {
-        return new EchoHandler();
+    public WebSocketHandler authHandler() {
+        return new AuthHandler();
     }
 
     public static void main(String[] args) {

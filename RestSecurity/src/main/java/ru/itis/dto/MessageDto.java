@@ -6,6 +6,10 @@ public class MessageDto {
     public MessageDto() {
     }
 
+    public MessageDto(String message) {
+        this.message = message;
+    }
+
     public String getMessage() {
         return message;
     }

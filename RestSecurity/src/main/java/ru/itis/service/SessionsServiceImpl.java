@@ -8,6 +8,8 @@ import java.util.*;
 @Service
 public class SessionsServiceImpl implements SessionsService {
 
+    // id - чата - ключ
+    // значение - список сессий данного чата
     private Map<Integer, List<WebSocketSession>> sessions;
 
     public SessionsServiceImpl() {
@@ -19,7 +21,9 @@ public class SessionsServiceImpl implements SessionsService {
         // если сессий для данного чата еще не было
         if (sessions.get(chatId) == null) {
             // создаем список сессий для данного чата с одной сессией
-            sessions.put(chatId, Arrays.asList(session));
+            ArrayList<WebSocketSession> newChatSessions = new ArrayList<>();
+            newChatSessions.add(session);
+            sessions.put(chatId, newChatSessions);
         } else {
             // если список сессий уже был, просто добавляем сессию
             List<WebSocketSession> chatSessions = sessions.get(chatId);

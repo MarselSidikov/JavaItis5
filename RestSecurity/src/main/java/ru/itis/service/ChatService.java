@@ -14,8 +14,19 @@ public interface ChatService {
      */
     List<MessageDto> getMessages(String token, int chatId);
 
-
+    /**
+     * Сохранить сообщение от автора с token-ом, и разослать всем в чате
+     * @param token
+     * @param chatId
+     * @param message
+     */
     void saveAndDeliverMessage(String token, int chatId, MessageDto message);
 
+    /**
+     * Проверяет, состоит ли пользователь в чате
+     * @param token токен пользователя
+     * @param chatId идентификатор чата
+     * @return
+     */
     boolean isUserInChat(String token, int chatId);
 }
