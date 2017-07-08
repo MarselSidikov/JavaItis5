@@ -63,6 +63,8 @@ public class TokenAuthFilter extends GenericFilterBean {
                 || request.getRequestURI().endsWith("favicon.ico")
                 || request.getRequestURI().startsWith("/login") && request.getMethod().equals("POST")
                 || request.getRequestURI().equals("/index.html") && request.getMethod().equals("GET")
+                || request.getRequestURI().equals("/registration.html") && request.getMethod().equals("GET")
+                || request.getRequestURI().equals("/singin.html") && request.getMethod().equals("GET")
                 || request.getRequestURI().startsWith("/echoHandler") && request.getMethod().equals("GET");
     }
 }

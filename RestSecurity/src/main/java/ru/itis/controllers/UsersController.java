@@ -78,6 +78,21 @@ public class UsersController {
         return new ResponseEntity<>(usersService.getUsers(), HttpStatus.ACCEPTED);
     }
 
+//    @GetMapping("/chats")
+//    public ResponseEntity<List<ChatDto>> getChats() {
+//
+//    }
+//
+//    @PostMapping("/chats")
+//    public ResponseEntity<ChatDto> postChat(@RequestBody ChatDto chat) {
+//
+//    }
+//
+//    @PostMapping("chats/{chat-id}")
+//    public ResponseEntity<Object> postUserToChat(@RequestBody UserDto userDto) {
+//
+//    }
+
     @PostMapping("/chats/{chat-id}/messages")
     public ResponseEntity<Object> postMessage(@RequestBody MessageDto message,
                                               @PathVariable("chat-id") int chatId,
