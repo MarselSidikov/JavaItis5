@@ -69,16 +69,24 @@
 </div>
 <script type="text/javascript">
     $("#submit").click(function () {
+        // объявили переменную, которая хранит введенные данные пользователя
         var json = {};
+        // засунули данные в JSON
         json["name"] = $("#name").val();
         json["age"] = parseInt($("#age").val());
         json["login"] = $("#login").val();
         json["password"] = $("#password").val();
 
+        // создали запрос
         var xhr = new XMLHttpRequest();
+        // открыли сессию для запроса
+        // true - говорит, что запрос асинхронный
         xhr.open("POST", "/users", true);
+        // положили заголовки
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        // отправили JSON преобразовав его в строку
         xhr.send(JSON.stringify(json));
+        // перенаправляем страничку
         window.location = "http://localhost:8080/singin.html";
     });
 </script>

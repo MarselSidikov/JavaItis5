@@ -4,102 +4,132 @@
     <title>Chat</title>
     <script language="javascript" type="text/javascript"
             src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <style>
+        input[type=text], select {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-    <script language="javascript" type="text/javascript">
-        // описываем функцию работы с вебсокетами
-        jQuery(function ($) {
-            var token;
+        input[type=password], select {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-            $('#sendLogin')
-                .click(function() {
-                    $.ajax({
-                        url: 'http://localhost:8080/login',
-                        type: 'post',
-                        headers: {
-                            login: $("#login").val(),
-                            password: $("#password").val()
-                        },
-                        success: function(data, textStatus, request){
-                            token = request.getResponseHeader('Auth-Token');
-                        }
-                    })
-                });
+        button {
+            width: 50%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-            // функция вывода статуса
-            function writeStatus(message) {
-                $("#statusOutput").val($("#statusOutput").val() + message + '\n');
-            }
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
 
-            // запись сообщения
-            function writeMessage(message) {
-                $('#messageOutput').append(message + '\n');
-            }
-
-            // подключения
-            $('#connect')
-                .click(function doConnect() {
-                    // создается объект websocket
-                    websocket = new WebSocket($("#target").val());
-                    // при подключении написать CONNECTED
-                    websocket.onopen = function (evt) {
-                        writeStatus("CONNECTED");
-                    };
-
-                    websocket.onclose = function (evt) {
-                        writeStatus("DISCONNECTED");
-                    };
-
-                    websocket.onmessage = function (evt) {
-                        writeMessage(evt.data);
-                    };
-
-                    websocket.onerror = function (evt) {
-                        onError(writeStatus('ERROR:' + evt.data))
-                    };
-                });
-
-
-            $('#disconnect')
-                .click(function () {
-                    if (typeof websocket != 'undefined') {
-                        websocket.close();
-                        websocket = undefined;
-                    } else {
-                        alert("Not connected.");
-                    }
-
-                });
-
-            $('#send')
-                .click(function () {
-                    if (typeof websocket != 'undefined') {
-                        websocket.send(token + " " + $('#message').val());
-                    } else {
-                        alert("Not connected.");
-                    }
-                });
-        });
-    </script>
+        div {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
+<div>
+    <h1>Чат</h1>
+    <br/>
+    <button id="connect">Войти в чат</button>
+    <button id="disconnect">Выйти из чата</button>
+    <br/>
+    <br/>
 
-<h2>WebSocket Tester</h2>
-Target:
-<input type="text" id="login" size="40" value=""/>
-<input type="text" id="password" size="40" value=""/>
-<button id="sendLogin">Login</button>
-<input type="text" id="target" size="40" value="ws://localhost:8080/echoHandler"/>
-<br/>
-<button id="connect">Connect</button>
-<button id="disconnect">Disconnect</button>
-<br/>
-<br/>Message:
-<input type="text" id="message" value=""/>
-<button id="send">Send</button>
-<br/>
-<p>Status output:</p>
-<pre><textarea id="statusOutput" rows="lO" cols="SO"></textarea></pre>
-<p>Message output:</p>
-<pre><textarea id="messageOutput" rows="lO" cols="SO"></textarea></pre>
+    <input type="text" id="message" value=""/>
+    <button id="send">Отправить</button>
+    <br/>
+    <pre><textarea id="statusOutput" rows="lO" cols="SO"></textarea></pre>
+    <p>Чат</p>
+    <pre><textarea id="messageOutput" rows="lO" cols="SO"></textarea></pre>
+</div>
+<script language="javascript" type="text/javascript">
+    // описываем функцию работы с вебсокетами
+    jQuery(function ($) {
+        var token;
+
+        $('#sendLogin')
+            .click(function() {
+
+            });
+
+        // функция вывода статуса
+        function writeStatus(message) {
+            $("#statusOutput").val($("#statusOutput").val() + message + '\n');
+        }
+
+        // запись сообщения
+        function writeMessage(message) {
+            $('#messageOutput').append(message + '\n');
+        }
+
+        // подключения
+        $('#connect')
+            .click(function doConnect() {
+                // создается объект websocket
+                websocket = new WebSocket("ws://localhost:8080/echoHandler");
+                // при подключении написать CONNECTED
+                websocket.onopen = function (evt) {
+                    var token = document.cookie["Auth-Token"];
+                    if (typeof websocket != 'undefined') {
+                        websocket.send(token.val() + " " + "1" + " " + $('#message').val());
+                    } else {
+                        alert("Not connected.");
+                    }
+                    writeStatus("CONNECTED");
+                };
+
+                websocket.onclose = function (evt) {
+                    writeStatus("DISCONNECTED");
+                };
+
+                websocket.onmessage = function (evt) {
+                    writeMessage(evt.data);
+                };
+
+                websocket.onerror = function (evt) {
+                    onError(writeStatus('ERROR:' + evt.data))
+                };
+            });
+
+
+        $('#disconnect')
+            .click(function () {
+                if (typeof websocket != 'undefined') {
+                    websocket.close();
+                    websocket = undefined;
+                } else {
+                    alert("Not connected.");
+                }
+
+            });
+
+        $('#send')
+            .click(function () {
+
+            });
+    });
+</script>
 </body>
 </html>
+

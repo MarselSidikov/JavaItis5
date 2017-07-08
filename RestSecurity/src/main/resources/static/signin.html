@@ -70,7 +70,10 @@
             },
             success: function(data, textStatus, request){
                 token = request.getResponseHeader('Auth-Token');
-                console.log(token);
+                document.cookie = "Auth-Token=" + token;
+                if (token != null) {
+                    window.location = "http://localhost:8080/index.html";
+                }
             }
         })
     });
