@@ -5,25 +5,17 @@ import ru.itis.dto.MessageDto;
 
 import java.util.List;
 
+
 public interface ChatService {
     /**
-     * Проверяет существование пользователя и принадлежность пользователя
-     * чату
-     * @param token
-     */
-    boolean userIsExists(String token, int chatId);
-
-    /**
-     * Привязываем сессию к чату
+     * Получить все сообщения в чате
      * @param chatId
-     * @param session
+     * @return список сообщений
      */
-    void submitSession(int chatId, WebSocketSession session);
+    List<MessageDto> getMessages(String token, int chatId);
 
-    /**
-     * Отправка сообщений во все сессии данного чата
-     * @param chatId
-     * @return
-     */
-    void sendMessageToChat(int chatId, MessageDto message);
+
+    void saveAndDeliverMessage(String token, int chatId, MessageDto message);
+
+    boolean isUserInChat(String token, int chatId);
 }

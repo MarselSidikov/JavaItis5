@@ -52,7 +52,7 @@ public class UsersController {
     private UsersService usersService;
 
     @Autowired
-    private ChatService sessionsService;
+    private ChatService chatService;
 
     /**
      * Регистрация пользователя
@@ -78,11 +78,17 @@ public class UsersController {
         return new ResponseEntity<>(usersService.getUsers(), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/chats/{chat-id}")
+    @PostMapping("/chats/{chat-id}/messages")
     public ResponseEntity<Object> postMessage(@RequestBody MessageDto message,
-                                              @PathVariable("chat-id") int chatId) {
-        // TODO: сохранить в базу данных сообщений
-        sessionsService.sendMessageToChat(chatId, message);
+                                              @PathVariable("chat-id") int chatId,
+                                              @RequestHeader("Auth-Token") String token) {
+        chatService.saveAndDeliverMessage(token, chatId, message);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("chats/{chat-id}/messages")
+    public ResponseEntity<List<MessageDto>> getMessages(
+            @PathVariable("chat-id") int chatId, @RequestHeader("Auth-Token") String token) {
+        return new ResponseEntity<>(chatService.getMessages(token, chatId), HttpStatus.ACCEPTED);
     }
 }

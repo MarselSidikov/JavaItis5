@@ -14,40 +14,31 @@ import java.util.*;
 @Service
 public class ChatServiceImpl implements ChatService {
 
-    private Map<Integer, List<WebSocketSession>> sessions;
-
     @Autowired
     private UsersDao usersDao;
 
-    public ChatServiceImpl() {
-        sessions = new HashMap<>();
-    }
+    @Autowired
+    private SessionsService sessionsService;
+
     @Override
-    public boolean userIsExists(String token, int chatId) {
-      return usersDao.findByToken(token) != null;
+    public List<MessageDto> getMessages(String token, int chatId) {
+        return null;
     }
 
     @Override
-    public void submitSession(int chatId, WebSocketSession session) {
-        // если сессий для данного чата еще не было
-        if (sessions.get(chatId) == null) {
-            // создаем список сессий для данного чата с одной сессией
-            sessions.put(chatId, Arrays.asList(session));
-        } else {
-            // если список сессий уже был, просто добавляем сессию
-            List<WebSocketSession> chatSessions = sessions.get(chatId);
-            chatSessions.add(session);
-        }
-    }
-
-    @Override
-    public void sendMessageToChat(int chatId, MessageDto message) {
-        for (WebSocketSession session : sessions.get(chatId)) {
+    public void saveAndDeliverMessage(String token, int chatId, MessageDto message) {
+        List<WebSocketSession> sessions = sessionsService.getSessionsOfChat(chatId);
+        for (WebSocketSession session : sessions) {
             try {
                 session.sendMessage(new TextMessage(message.getMessage().getBytes()));
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
         }
+    }
+
+    @Override
+    public boolean isUserInChat(String token, int chatId) {
+        return false;
     }
 }
