@@ -12,7 +12,7 @@
     
 
     <groupId>ru.itis</groupId>
-    <artifactId>rest-security</artifactId>
+    <artifactId>webscokets-chat</artifactId>
     <version>0.1</version>
 
     <dependencies>
