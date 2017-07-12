@@ -3,49 +3,12 @@
     <meta charset="UTF-8">
     <title>Чат - авторизация</title>
     <script language="javascript" type="text/javascript"
-            src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <style>
-        input[type=text], select {
-            width: 50%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[type=password], select {
-            width: 50%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 50%;
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        input[type=submit]:hover {
-            background-color: #45a049;
-        }
-
-        div {
-            border-radius: 5px;
-            background-color: #f2f2f2;
-            padding: 20px;
-        }
-    </style>
+            src="http://code.jquery.com/jquery-2.1.1.min.js">
+    </script>
+    <script language="javascript" type="text/javascript"
+            src="js/signin.js">
+    </script>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 <div align="center">
@@ -57,25 +20,8 @@
     <br>
     <input type="password" id="password" name="password" placeholder="Пароль..">
     <br>
-    <button id="submit">Вход</button>
+    <button id="submit" onclick="login(
+        document.getElementById('login').value,
+        document.getElementById('password').value)">Вход</button>
 </div>
-<script type="text/javascript">
-    $("#submit").click(function () {
-        $.ajax({
-            url: 'http://localhost:8080/login',
-            type: 'post',
-            headers: {
-                login: $("#login").val(),
-                password: $("#password").val()
-            },
-            success: function(data, textStatus, request){
-                token = request.getResponseHeader('Auth-Token');
-                document.cookie = "Auth-Token=" + token;
-                if (token != null) {
-                    window.location = "http://localhost:8080/index.html";
-                }
-            }
-        })
-    });
-</script>
 </body>

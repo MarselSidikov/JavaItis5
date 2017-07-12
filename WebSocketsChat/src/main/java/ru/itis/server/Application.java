@@ -21,24 +21,12 @@ import ru.itis.handlers.AuthHandler;
  */
 @SpringBootApplication
 @ComponentScan("ru.itis.config")
-@EnableWebSocket
-public class Application extends SpringBootServletInitializer implements
-        WebSocketConfigurer {
+public class Application extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         // конфигурирует статику
         return application.sources(Application.class);
-    }
-
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(authHandler(), "/authHandler");
-    }
-
-    @Bean
-    public WebSocketHandler authHandler() {
-        return new AuthHandler();
     }
 
     public static void main(String[] args) {

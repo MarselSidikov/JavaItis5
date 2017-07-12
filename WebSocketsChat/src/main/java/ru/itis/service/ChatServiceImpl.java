@@ -43,11 +43,6 @@ public class ChatServiceImpl implements ChatService {
         List<MessageDto> result = messages.
                 stream().map(message ->
                 new MessageDto(message.getText())).collect(Collectors.toList());
-//        List<MessageDto> result = new ArrayList<>();
-//        for (Message model : messages) {
-//            MessageDto dto = new MessageDto(model.getText());
-//            result.add(dto);
-//        }
         return result;
     }
 
@@ -76,7 +71,9 @@ public class ChatServiceImpl implements ChatService {
             for (WebSocketSession session : sessions) {
                 try {
                     // отправляем сообщение
-                    session.sendMessage(new TextMessage(message.getMessage().getBytes()));
+                    if (session.isOpen()) {
+                        session.sendMessage(new TextMessage(message.getMessage().getBytes()));
+                    }
                 } catch (IOException e) {
                     throw new IllegalStateException(e);
                 }

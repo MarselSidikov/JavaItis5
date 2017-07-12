@@ -86,7 +86,7 @@
                 // при подключении написать CONNECTED
                 websocket.onopen = function (evt) {
                     var token = getCookie("Auth-Token");
-                    if (typeof websocket != 'undefined') {
+                    if (typeof websocket !== 'undefined') {
                         websocket.send(token + " " + "1" + " " + $('#message').val());
                     } else {
                         alert("Not connected.");
