@@ -10,7 +10,10 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "author")
+    @ManyToOne
+    private User creator;
+
+    @OneToMany(mappedBy = "chat")
     private List<Message> messages;
 
     @Column(name = "name")
@@ -22,12 +25,27 @@ public class Chat {
     public Chat() {
     }
 
+    public Chat(User creator, List<Message> messages, String name, List<User> users) {
+        this.creator = creator;
+        this.messages = messages;
+        this.name = name;
+        this.users = users;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public List<Message> getMessages() {
@@ -38,19 +56,19 @@ public class Chat {
         this.messages = messages;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

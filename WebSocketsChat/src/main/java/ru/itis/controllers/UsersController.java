@@ -51,9 +51,6 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
-    @Autowired
-    private ChatService chatService;
-
     /**
      * Регистрация пользователя
      * @param user данные для регистрации
@@ -76,34 +73,5 @@ public class UsersController {
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(usersService.getUsers(), HttpStatus.ACCEPTED);
-    }
-
-//    @GetMapping("/chats")
-//    public ResponseEntity<List<ChatDto>> getChats() {
-//
-//    }
-//
-//    @PostMapping("/chats")
-//    public ResponseEntity<ChatDto> postChat(@RequestBody ChatDto chat) {
-//
-//    }
-//
-//    @PostMapping("chats/{chat-id}")
-//    public ResponseEntity<Object> postUserToChat(@RequestBody UserDto userDto) {
-//
-//    }
-
-    @PostMapping("/chats/{chat-id}/messages")
-    public ResponseEntity<Object> postMessage(@RequestBody MessageDto message,
-                                              @PathVariable("chat-id") int chatId,
-                                              @RequestHeader("Auth-Token") String token) {
-        chatService.saveAndDeliverMessage(token, chatId, message);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
-    @GetMapping("chats/{chat-id}/messages")
-    public ResponseEntity<List<MessageDto>> getMessages(
-            @PathVariable("chat-id") int chatId, @RequestHeader("Auth-Token") String token) {
-        return new ResponseEntity<>(chatService.getMessages(token, chatId), HttpStatus.ACCEPTED);
     }
 }

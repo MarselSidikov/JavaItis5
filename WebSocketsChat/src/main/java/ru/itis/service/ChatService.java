@@ -1,6 +1,7 @@
 package ru.itis.service;
 
-import org.springframework.web.socket.WebSocketSession;
+import org.springframework.http.ResponseEntity;
+import ru.itis.dto.ChatDto;
 import ru.itis.dto.MessageDto;
 
 import java.util.List;
@@ -29,4 +30,8 @@ public interface ChatService {
      * @return
      */
     boolean isUserInChat(String token, int chatId);
+
+    void addChat(ChatDto chat, String token);
+
+    List<ChatDto> getChats();
 }

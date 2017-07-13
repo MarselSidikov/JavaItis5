@@ -1,0 +1,23 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Чат - авторизация</title>
+    <script language="javascript" type="text/javascript"
+            src="http://code.jquery.com/jquery-2.1.1.min.js">
+    </script>
+    <script language="javascript" type="text/javascript"
+            src="js/add_chat.js">
+    </script>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="chat_container">
+    <div class="form">
+        <input id="chat_name" type="text" placeholder="Название чата"/>
+        <button id="submit" title="Добавить" onclick="addChat(
+            document.getElementById('chat_name').value)">Добавить
+        </button>
+    </div>
+</div>
+</body>
+</html>

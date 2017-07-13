@@ -1,13 +1,14 @@
 package ru.itis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import ru.itis.converter.Converter;
 import ru.itis.dao.ChatsDao;
 import ru.itis.dao.MessagesDao;
 import ru.itis.dao.UsersDao;
+import ru.itis.dto.ChatDto;
 import ru.itis.dto.MessageDto;
 import ru.itis.model.Chat;
 import ru.itis.model.Message;
@@ -15,10 +16,7 @@ import ru.itis.model.User;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static ru.itis.converter.Converter.convert;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -86,5 +84,21 @@ public class ChatServiceImpl implements ChatService {
     public boolean isUserInChat(String token, int chatId) {
         User user = usersDao.findByToken(token);
         return chatsDao.isUserInChat(user.getId(), chatId);
+    }
+
+    @Override
+    public void addChat(ChatDto chat, String token) {
+        User user = usersDao.findByToken(token);
+        Chat model = new Chat(user, null, chat.getName(), null);
+        chatsDao.save(model);
+    }
+
+    @Override
+    public List<ChatDto> getChats() {
+        List<Chat> chats = chatsDao.findAll();
+        List<ChatDto> result = chats.
+                stream().map(chat ->
+                new ChatDto(chat.getId(), chat.getName(), chat.getCreator().getName())).collect(Collectors.toList());
+        return result;
     }
 }

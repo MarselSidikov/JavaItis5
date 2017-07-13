@@ -11,17 +11,20 @@
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
-<div align="center">
-    <label for="login">Логин</label>
-    <br>
-    <input type="text" id="login" name="login" placeholder="Логин..">
-    <br>
-    <label for="password">Пароль</label>
-    <br>
-    <input type="password" id="password" name="password" placeholder="Пароль..">
-    <br>
-    <button id="submit" onclick="login(
+<div class="chat_container">
+    <div class="form">
+        <label for="login">Логин</label>
+        <br>
+        <input type="text" id="login" name="login" placeholder="Логин..">
+        <br>
+        <label for="password">Пароль</label>
+        <br>
+        <input type="password" id="password" name="password" placeholder="Пароль..">
+        <br>
+        <button id="submit" onclick="login(
         document.getElementById('login').value,
-        document.getElementById('password').value)">Вход</button>
+        document.getElementById('password').value)">Вход
+        </button>
+    </div>
 </div>
 </body>
