@@ -194,3 +194,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+#messageOutput{
+    height: 200px;
+    width: 80%;
+}

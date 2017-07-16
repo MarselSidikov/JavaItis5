@@ -12,7 +12,7 @@ function getChats() {
                 let chatId = data[i]["id"];
 
                 row.onclick = function () {
-                    window.location = "/chat.html?id= " + chatId;
+                    window.location = "/chat.html?id=" + chatId;
                 };
                 var cellName = row.insertCell(0);
                 var cellAuthor = row.insertCell(1);

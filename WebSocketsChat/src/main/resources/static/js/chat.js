@@ -1,6 +1,7 @@
 var token;
-function sendMessage(chatId, message) {
-    var json = {}
+var chatId;
+function sendMessage( message) {
+    var json = {};
     json["message"] = message.value;
     $.ajax({
         url: 'http://localhost:8080/chats/' + chatId + '/messages',
@@ -12,16 +13,18 @@ function sendMessage(chatId, message) {
         },
         data: JSON.stringify(json)
     })
+    jQuery('#message').val('');
 }
 
 function doConnect() {
+    chatId = getUrlVars()['id'];
     // создается объект websocket
     websocket = new WebSocket("ws://localhost:8080/authHandler");
     // при подключении написать CONNECTED
     websocket.onopen = function (evt) {
         token = getCookie("Auth-Token");
         if (typeof websocket !== 'undefined') {
-            websocket.send(token + " " + "1" + " " + $('#message').val());
+            websocket.send(token + " " + chatId + " " + $('#message').val());
         } else {
             alert("Not connected.");
         }
@@ -67,4 +70,10 @@ function disconnect() {
                     alert("Not connected.");
                 }
 }
-
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
