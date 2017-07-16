@@ -10,7 +10,7 @@ function login(login, password) {
             token = request.getResponseHeader('Auth-Token');
             document.cookie = "Auth-Token=" + token;
             if (token !== null) {
-                window.location = "http://localhost:8080/chat.html";
+                window.location = "http://localhost:8080/chat_list.html";
             }
         }
     })

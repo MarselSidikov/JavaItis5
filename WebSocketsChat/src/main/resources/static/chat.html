@@ -4,50 +4,28 @@
     <title>Chat</title>
     <script language="javascript" type="text/javascript"
             src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script language="javascript" type="text/javascript"
+            src="js/chat.js"></script>
+
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 <div class="chat_container">
     <div class="form">
-        <button id="connect">Войти в чат</button>
-        <button id="disconnect">Выйти из чата</button>
+        <button id="connect" onclick="doConnect()">Войти в чат</button>
+        <button id="disconnect" onclick="disconnect()">Выйти из чата</button>
         <br/>
-        <input type="text" id="message" value=""/>
+        <input type="text" id="message" placeholder="| message"/>
         <button id="send" onclick="sendMessage(
+            window.location.search.search('id'),
             document.getElementById('message')
         )">Отправить</button>
         <br/>
-        <textarea id="statusOutput" rows="lO" cols="SO"></textarea>
+        <textarea id="statusOutput" rows="lO" cols="SO" placeholder="| Статус подключения"></textarea>
         <p>Чат</p>
-        <textarea id="messageOutput" rows="lO" cols="SO"></textarea>
+        <textarea id="messageOutput" rows="lO" cols="SO" ></textarea>
     </div>
 </div>
-<script language="javascript" type="text/javascript">
-    // описываем функцию работы с вебсокетами
-    jQuery(function ($) {
-        var token;
-
-        // функция вывода статуса
-        function writeStatus(message) {
-            $("#statusOutput").val($("#statusOutput").val() + message + '\n');
-        }
-
-        // запись сообщения
-        function writeMessage(message) {
-            $('#messageOutput').append(message + '\n');
-        }
-
-        $('#disconnect')
-            .click(function () {
-                if (typeof websocket != 'undefined') {
-                    websocket.close();
-                    websocket = undefined;
-                } else {
-                    alert("Not connected.");
-                }
-            });
-    });
-</script>
 </body>
 </html>
 

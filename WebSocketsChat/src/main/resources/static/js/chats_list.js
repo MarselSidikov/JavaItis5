@@ -10,6 +10,7 @@ function getChats() {
             for (var i = 0; i < data.length; i++) {
                 let row = table.insertRow(i + 1);
                 let chatId = data[i]["id"];
+
                 row.onclick = function () {
                     window.location = "/chat.html?id= " + chatId;
                 };
