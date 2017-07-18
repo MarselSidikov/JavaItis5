@@ -18,7 +18,7 @@ function getChats() {
                         headers: {
                             "Auth-Token": getCookie("Auth-Token")
                         }});
-                    window.location = "/chat.html?id=" + chatId;
+                    window.location = "/stomp_chat.html?id=" + chatId;
                 };
                 const cellName = row.insertCell(0);
                 const cellAuthor = row.insertCell(1);

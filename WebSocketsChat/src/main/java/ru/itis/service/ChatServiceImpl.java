@@ -2,6 +2,7 @@ package ru.itis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
@@ -34,6 +35,9 @@ public class ChatServiceImpl implements ChatService {
     @Autowired
     private SessionsService sessionsService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @Override
     public List<MessageDto> getMessages(String token, int chatId) {
         User user = usersDao.findByToken(token);
@@ -45,8 +49,7 @@ public class ChatServiceImpl implements ChatService {
         return result;
     }
 
-    @Override
-    public void saveAndDeliverMessage(String token, int chatId, MessageDto message) {
+    public void temp(String token, int chatId, MessageDto message) {
         // проверяем, что пользователь, отправивший данное сообщение в чат
         // действительно имеет на это право
         if (isUserInChat(token, chatId)) {
@@ -78,7 +81,29 @@ public class ChatServiceImpl implements ChatService {
                 }
             }
         }
+    }
 
+    @Override
+    public void saveAndDeliverMessage(String token, int chatId, MessageDto message) {
+        // проверяем, что пользователь, отправивший данное сообщение в чат
+        // действительно имеет на это право
+        if (isUserInChat(token, chatId)) {
+            // находим пользователя по токену
+            User user = usersDao.findByToken(token);
+            // находим чат по его id
+            Chat chat = chatsDao.findOne(chatId);
+            // созлаем модель сообшения для сохранения
+            Message model = new Message();
+            // проставляем автора
+            model.setAuthor(user);
+            // проставляем чат
+            model.setChat(chat);
+            // проставляем текст
+            model.setText(message.getMessage());
+            // сохраняем сообщение
+            messagesDao.save(model);
+            messagingTemplate.convertAndSend("/topic/chats/" + chatId, message);
+        }
     }
 
     @Override

@@ -51,7 +51,6 @@ public class ChatsController {
     @PostMapping("chats/{chat-id}/users")
     public ResponseEntity<Object> enterChat(@RequestHeader("Auth-Token") String token,
                                             @PathVariable("chat-id") int chatId) {
-        System.out.println("enter to chat");
         chatService.enterChat(token, chatId);
         return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
     }
