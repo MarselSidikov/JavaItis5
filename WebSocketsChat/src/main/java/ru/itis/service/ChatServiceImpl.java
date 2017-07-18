@@ -3,6 +3,7 @@ package ru.itis.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import ru.itis.dao.ChatsDao;
@@ -96,9 +97,26 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<ChatDto> getChats() {
         List<Chat> chats = chatsDao.findAll();
-        List<ChatDto> result = chats.
+        return chats.
                 stream().map(chat ->
                 new ChatDto(chat.getId(), chat.getName(), chat.getCreator().getName())).collect(Collectors.toList());
-        return result;
+    }
+
+    @Override
+    @Transactional
+    public void enterChat(String token, int chatId) {
+        // нашли чат
+        Chat chat = chatsDao.findOne(chatId);
+        // нашли пользователя, который хочет добавиться в чат
+        User user = usersDao.findByToken(token);
+        // получили/не получили пользователя с этим id в чате
+        Optional<User> foundUser = chat.getUsers()
+                .stream()
+                .filter(chatUser -> chatUser.getId() == user.getId())
+                .findFirst();
+        if (!foundUser.isPresent()) {
+            user.getChats().add(chat);
+            usersDao.save(user);
+        }
     }
 }

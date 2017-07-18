@@ -12,17 +12,12 @@
 <body>
 <div class="chat_container">
     <div class="form">
-        <button id="connect" onclick="doConnect()">Войти в чат</button>
-        <button id="disconnect" onclick="disconnect()">Выйти из чата</button>
-        <br/>
         <input type="text" id="message" placeholder="| message" value=""/>
         <button id="send" onclick="sendMessage(
             document.getElementById('message')
         )">Отправить</button>
         <br/>
-        <textarea id="statusOutput" rows="lO" cols="SO" placeholder="| Статус подключения"></textarea>
-        <p>Чат</p>
-        <textarea id="messageOutput" rows="lO" cols="SO" placeholder="| чат пока пустой"></textarea>
+        <select id="chatMessagesList" size="30" disabled  ></select>
     </div>
 </div>
 </body>

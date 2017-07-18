@@ -47,4 +47,12 @@ public class ChatsController {
             @PathVariable("chat-id") int chatId, @RequestHeader("Auth-Token") String token) {
         return new ResponseEntity<>(chatService.getMessages(token, chatId), HttpStatus.ACCEPTED);
     }
+
+    @PostMapping("chats/{chat-id}/users")
+    public ResponseEntity<Object> enterChat(@RequestHeader("Auth-Token") String token,
+                                            @PathVariable("chat-id") int chatId) {
+        System.out.println("enter to chat");
+        chatService.enterChat(token, chatId);
+        return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+    }
 }

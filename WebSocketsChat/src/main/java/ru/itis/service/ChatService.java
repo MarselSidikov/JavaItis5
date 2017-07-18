@@ -34,4 +34,6 @@ public interface ChatService {
     void addChat(ChatDto chat, String token);
 
     List<ChatDto> getChats();
+
+    void enterChat(String token, int chatId);
 }

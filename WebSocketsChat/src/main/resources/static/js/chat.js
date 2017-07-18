@@ -1,5 +1,8 @@
-var token;
-var chatId;
+let token;
+let chatId;
+
+window.onload = doConnect();
+
 function sendMessage( message) {
     var json = {};
     json["message"] = message.value;
@@ -20,7 +23,7 @@ function doConnect() {
     chatId = getUrlVars()['id'];
     // создается объект websocket
     websocket = new WebSocket("ws://localhost:8080/authHandler");
-    // при подключении написать CONNECTED
+
     websocket.onopen = function (evt) {
         token = getCookie("Auth-Token");
         if (typeof websocket !== 'undefined') {
@@ -28,20 +31,12 @@ function doConnect() {
         } else {
             alert("Not connected.");
         }
-        writeStatus("CONNECTED");
-    };
-
-    websocket.onclose = function (evt) {
-        writeStatus("DISCONNECTED");
     };
 
     websocket.onmessage = function (evt) {
         writeMessage(evt.data);
     };
 
-    websocket.onerror = function (evt) {
-        onError(writeStatus('ERROR:' + evt.data))
-    }
 }
 function getCookie(name) {
     var matches = document.cookie.match(new RegExp(
@@ -50,18 +45,14 @@ function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-    // описываем функцию работы с вебсокетами
-
-
-        // функция вывода статуса
-function writeStatus(message) {
-            $("#statusOutput").val($("#statusOutput").val()+message+ '\n');
-}
-
-        // запись сообщения
 function writeMessage(message) {
-            $('#messageOutput').append(message + '\n');
+    let select = document.getElementById('chatMessagesList');
+    let messageOption = document.createElement('option');
+    messageOption.value = 0;
+    messageOption.innerHTML = message;
+    select.appendChild(messageOption);
 }
+
 function disconnect() {
                 if (typeof websocket !== 'undefined') {
                     websocket.close();
@@ -70,6 +61,7 @@ function disconnect() {
                     alert("Not connected.");
                 }
 }
+
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
