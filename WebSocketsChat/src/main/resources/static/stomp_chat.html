@@ -14,7 +14,10 @@
 <body>
 <div class="chat_container">
     <div class="form">
-        <input type="text" id="message" placeholder="| message" value=""/>
+        <input type="text" id="message" placeholder="enter message here..." value=""
+               onkeydown="if (event.keyCode == 13) {sendMessage(
+document.getElementById('message')
+); return false; }"/>
         <button id="send" onclick="sendMessage(
             document.getElementById('message')
         )">Отправить
