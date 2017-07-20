@@ -49,40 +49,6 @@ public class ChatServiceImpl implements ChatService {
         return result;
     }
 
-    public void temp(String token, int chatId, MessageDto message) {
-        // проверяем, что пользователь, отправивший данное сообщение в чат
-        // действительно имеет на это право
-        if (isUserInChat(token, chatId)) {
-            // находим пользователя по токену
-            User user = usersDao.findByToken(token);
-            // находим чат по его id
-            Chat chat = chatsDao.findOne(chatId);
-            // созлаем модель сообшения для сохранения
-            Message model = new Message();
-            // проставляем автора
-            model.setAuthor(user);
-            // проставляем чат
-            model.setChat(chat);
-            // проставляем текст
-            model.setText(message.getMessage());
-            // сохраняем сообщение
-            messagesDao.save(model);
-            // формируем список сессий данного чата
-            List<WebSocketSession> sessions = sessionsService.getSessionsOfChat(chatId);
-            // для каждой сессии
-            for (WebSocketSession session : sessions) {
-                try {
-                    // отправляем сообщение
-                    if (session.isOpen()) {
-                        session.sendMessage(new TextMessage(message.getMessage().getBytes()));
-                    }
-                } catch (IOException e) {
-                    throw new IllegalStateException(e);
-                }
-            }
-        }
-    }
-
     @Override
     public void saveAndDeliverMessage(String token, int chatId, MessageDto message) {
         // проверяем, что пользователь, отправивший данное сообщение в чат
@@ -102,7 +68,9 @@ public class ChatServiceImpl implements ChatService {
             model.setText(message.getMessage());
             // сохраняем сообщение
             messagesDao.save(model);
+            message.setFrom(user.getName());
             messagingTemplate.convertAndSend("/topic/chats/" + chatId, message);
+            sessionsService.sendToSessions(message, chatId);
         }
     }
 

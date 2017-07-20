@@ -12,7 +12,7 @@ function doConnect() {
             '/topic/chats/' + chatId,
             // что происходит, когда к нам приходит сообщение
             function (messageOutput) {
-            writeMessage(JSON.parse(messageOutput.body).message);
+            writeMessage(JSON.parse(messageOutput.body).from, JSON.parse(messageOutput.body).message);
         });
     });
 }

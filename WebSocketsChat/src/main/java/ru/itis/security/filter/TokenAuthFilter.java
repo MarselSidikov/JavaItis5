@@ -29,11 +29,16 @@ public class TokenAuthFilter extends GenericFilterBean {
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
+        // преобразование из ServletRequest в HttpServletRequest
         HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
+        // запрос требует проверки безопасности
         if (isNotUnprotectedRequest(httpServletRequest)) {
+            // достаем токен из запроса
             String token = getTokenFromHttp(httpServletRequest);
+            // выполняем аутентификацию
             authenticationManager.authenticate(new TokenAuthentication(token));
         }
+        // идем дальше
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

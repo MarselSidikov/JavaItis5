@@ -13,6 +13,8 @@ import ru.itis.service.SessionsService;
 
 import java.io.IOException;
 
+import static ru.itis.security.utils.TokenUtils.getTokenFromWebSocketsMessage;
+
 /**
  * 26.01.17
  * AuthHandler
@@ -34,7 +36,7 @@ public class AuthHandler extends TextWebSocketHandler {
     private AuthenticationManager manager;
 
     public void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws IOException {
-        String token = TokenUtils.getTokenFromWebSocketsMessage(textMessage);
+        String token = getTokenFromWebSocketsMessage(textMessage);
         manager.authenticate(new TokenAuthentication(token));
 
         int chatId = Integer.parseInt(textMessage.getPayload().split(" ")[1]);

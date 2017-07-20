@@ -21,11 +21,11 @@ function sendMessage( message) {
  * функция вывода сообщения в текстовом поле chatMessagesList
  * @param message - текст сообщения
  */
-function writeMessage(message) {
+function writeMessage(from, message) {
     let select = document.getElementById('chatMessagesList');
     let messageOption = document.createElement('option');
     messageOption.value = 0;
-    messageOption.innerHTML = message;
+    messageOption.innerHTML = from + " : " + message;
     select.appendChild(messageOption);
 }
 /**
