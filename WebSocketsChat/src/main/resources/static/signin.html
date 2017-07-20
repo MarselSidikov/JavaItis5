@@ -6,6 +6,8 @@
             src="http://code.jquery.com/jquery-2.1.1.min.js">
     </script>
     <script language="javascript" type="text/javascript"
+            src="js/functions.js"></script>
+    <script language="javascript" type="text/javascript"
             src="js/signin.js">
     </script>
     <link rel="stylesheet" href="css/style.css"/>
@@ -15,11 +17,16 @@
     <div class="form">
         <label for="login">Логин</label>
         <br>
-        <input type="text" id="login" name="login" placeholder="Логин..">
+        <input type="text" id="login" name="login" placeholder="Логин.." required
+
         <br>
         <label for="password">Пароль</label>
         <br>
-        <input type="password" id="password" name="password" placeholder="Пароль..">
+        <input type="password" id="password" name="password" placeholder="Пароль.." required
+               onkeydown="if (event.keyCode == 13) {login(
+        document.getElementById('login').value,
+        document.getElementById('password').value);
+        return false; }"/>
         <br>
         <button id="submit" onclick="login(
         document.getElementById('login').value,
