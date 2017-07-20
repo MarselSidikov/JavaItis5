@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 import ru.itis.security.auth.TokenAuthentication;
 
 /**
@@ -18,6 +19,7 @@ import ru.itis.security.auth.TokenAuthentication;
  */
 
 // Provider - занимается аутентификацией
+@Component
 public class TokenAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired

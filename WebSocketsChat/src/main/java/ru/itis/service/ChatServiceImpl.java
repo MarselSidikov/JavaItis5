@@ -45,7 +45,7 @@ public class ChatServiceImpl implements ChatService {
         List<Message> messages = messagesDao.findByAuthorAndChat(user, chat);
         List<MessageDto> result = messages.
                 stream().map(message ->
-                new MessageDto(message.getText())).collect(Collectors.toList());
+                new MessageDto(0, "Marsel", message.getText())).collect(Collectors.toList());
         return result;
     }
 

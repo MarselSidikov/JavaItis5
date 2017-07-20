@@ -52,6 +52,6 @@ public class ChatsController {
     public ResponseEntity<Object> enterChat(@RequestHeader("Auth-Token") String token,
                                             @PathVariable("chat-id") int chatId) {
         chatService.enterChat(token, chatId);
-        return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

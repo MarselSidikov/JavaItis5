@@ -51,11 +51,6 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
-    /**
-     * Регистрация пользователя
-     * @param user данные для регистрации
-     * @return базовая информация о пользователе
-     */
     @PostMapping("/users")
     public ResponseEntity<UserDto> signUp(@RequestBody UserDataForRegistrationDto user) {
         return new ResponseEntity<>(usersService.registerUser(user), HttpStatus.OK);

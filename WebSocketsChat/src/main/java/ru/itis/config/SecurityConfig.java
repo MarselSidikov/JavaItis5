@@ -1,5 +1,6 @@
 package ru.itis.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,9 @@ import javax.servlet.Filter;
 @ComponentScan("ru.itis")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private TokenAuthenticationProvider provider;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
@@ -45,26 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(tokenAuthenticationProvider());
+        auth.authenticationProvider(provider);
     }
 
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(){
-        return new UserDetailsServiceImpl();
-    }
-
-    @Bean
-    public AuthenticationProvider tokenAuthenticationProvider() {
-        return new TokenAuthenticationProvider();
-    }
-
-    @Bean
-    public Filter tokenAuthenticationFilter(AuthenticationManager authenticationManager) {
-        return new TokenAuthFilter(authenticationManager);
     }
 }
