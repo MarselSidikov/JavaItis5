@@ -12,13 +12,19 @@ function getChats() {
                 let chatId = data[i]["id"];
 
                 row.onclick = function () {
+
                     $.ajax({
                         url: 'http://localhost:8080/chats/' + chatId + '/users',
                         type: 'post',
                         headers: {
                             "Auth-Token": getCookie("Auth-Token")
                         }});
-                    window.location = "/stomp_chat.html?id=" + chatId;
+                    if(jQuery('#checkbox').prop("checked")){
+                        window.location = "/stomp_chat.html?id=" + chatId;
+                    }else{
+                        window.location = "/chat.html?id=" + chatId;
+                    }
+
                 };
                 const cellName = row.insertCell(0);
                 const cellAuthor = row.insertCell(1);
