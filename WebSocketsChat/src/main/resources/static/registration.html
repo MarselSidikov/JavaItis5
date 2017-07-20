@@ -5,6 +5,8 @@
     <script language="javascript" type="text/javascript"
             src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script language="javascript" type="text/javascript"
+            src="js/functions.js"></script>
+    <script language="javascript" type="text/javascript"
             src="js/registration.js">
     </script>
     <link rel="stylesheet" href="css/style.css"/>
@@ -14,19 +16,26 @@
     <div class="form">
         <label for="name">Имя</label>
         <br>
-        <input type="text" id="name" name="name" placeholder="Ваше имя..">
+        <input type="text" id="name" name="name" placeholder="Ваше имя.." required>
         <br>
         <label for="login">Логин</label>
         <br>
-        <input type="text" id="login" name="login" placeholder="Логин..">
+        <input type="text" id="login" name="login" placeholder="Логин.." required>
         <br>
         <label for="age">Возраст</label>
         <br>
-        <input type="text" id="age" name="age" placeholder="Возраст..">
+        <input type="text" id="age" name="age" placeholder="Возраст.." required>
         <br>
         <label for="password">Пароль</label>
         <br>
-        <input type="password" id="password" name="password" placeholder="Пароль..">
+        <input type="password" id="password" name="password" placeholder="Пароль.." required
+
+               onkeydown="if (event.keyCode == 13) {registration(
+        document.getElementById('name').value,
+        document.getElementById('age').value,
+        document.getElementById('login').value,
+        document.getElementById('password').value);
+        return false; }"/>
         <br>
         <button id="submit" onclick="registration(
         document.getElementById('name').value,
