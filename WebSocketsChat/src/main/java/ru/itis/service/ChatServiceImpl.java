@@ -70,6 +70,7 @@ public class ChatServiceImpl implements ChatService {
             messagesDao.save(model);
             message.setFrom(user.getName());
             messagingTemplate.convertAndSend("/topic/chats/" + chatId, message);
+            System.out.println("Sended");
             sessionsService.sendToSessions(message, chatId);
         }
     }

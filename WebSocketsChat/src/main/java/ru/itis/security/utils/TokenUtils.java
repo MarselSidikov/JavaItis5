@@ -32,9 +32,7 @@ public class TokenUtils {
     }
 
     private static String extractTokenFromHttpHeaders(HttpServletRequest request) {
-        String token = request.getHeader(AUTH_TOKEN);
-        verifyToken(token);
-        return token;
+        return request.getHeader(AUTH_TOKEN);
     }
 
     private static String extractTokenFromHttpCookies(HttpServletRequest request) {
@@ -48,7 +46,6 @@ public class TokenUtils {
                 }
             }
         }
-        verifyToken(token);
         return token;
     }
 

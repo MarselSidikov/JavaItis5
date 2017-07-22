@@ -1,6 +1,6 @@
 function getChats() {
     $.ajax({
-        url: 'http://localhost:8080/chats',
+        url: SERVER_API_URL + '/chats',
         type: 'get',
         headers: {
             "Auth-Token": getCookie("Auth-Token")
@@ -14,7 +14,7 @@ function getChats() {
                 row.onclick = function () {
 
                     $.ajax({
-                        url: 'http://localhost:8080/chats/' + chatId + '/users',
+                        url: SERVER_API_URL + '/chats/' + chatId + '/users',
                         type: 'post',
                         headers: {
                             "Auth-Token": getCookie("Auth-Token")

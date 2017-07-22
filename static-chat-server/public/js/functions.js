@@ -1,12 +1,11 @@
-/**
- * Функция отправки сообщений из текстового поля message
- * @param message - текст сообщения
- */
+const SERVER_API_URL = "http://localhost:8080";
+const SERVER_WS_URL = "ws://localhost:8080";
+
 function sendMessage( message) {
-    var json = {};
+    let json = {};
     json["message"] = message.value;
     $.ajax({
-        url: 'http://localhost:8080/chats/' + chatId + '/messages',
+        url: SERVER_API_URL + '/chats/' + chatId + '/messages',
         type: 'post',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -15,13 +14,13 @@ function sendMessage( message) {
         },
         data: JSON.stringify(json)
     })
-    jQuery('#message').val('');
 }
 /**
  * функция вывода сообщения в текстовом поле chatMessagesList
  * @param message - текст сообщения
  */
 function writeMessage(from, message) {
+    console.log(from + ' ' + message)
     let select = document.getElementById('chatMessagesList');
     let messageOption = document.createElement('option');
     messageOption.value = 0;
@@ -47,4 +46,13 @@ function getCookie(name) {
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function sendFile(file) {
+    var formData = new FormData();
+    formData.append("file", file);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/files", true);
+    xhr.send(formData);
 }

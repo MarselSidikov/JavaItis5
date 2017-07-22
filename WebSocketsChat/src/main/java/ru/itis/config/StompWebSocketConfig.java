@@ -28,7 +28,7 @@ public class StompWebSocketConfig extends AbstractWebSocketMessageBrokerConfigur
     }
 
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("/chat").withSockJS();
+        stompEndpointRegistry.addEndpoint("/chat").setAllowedOrigins("*").withSockJS();
     }
 
     @Override

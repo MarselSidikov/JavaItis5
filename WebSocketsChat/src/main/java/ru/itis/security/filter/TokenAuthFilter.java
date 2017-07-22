@@ -32,7 +32,7 @@ public class TokenAuthFilter extends GenericFilterBean {
         // преобразование из ServletRequest в HttpServletRequest
         HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
         // запрос требует проверки безопасности
-        if (isNotUnprotectedRequest(httpServletRequest)) {
+        if (!isUnprotectedRestRequest(httpServletRequest)) {
             // достаем токен из запроса
             String token = getTokenFromHttp(httpServletRequest);
             // выполняем аутентификацию
@@ -42,32 +42,12 @@ public class TokenAuthFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    private boolean isNotUnprotectedRequest(HttpServletRequest httpServletRequest) {
-        return !(isRequestOnUnprotectedHtmlPage(httpServletRequest)
-                || isUnprotectedRestRequest(httpServletRequest)
-                || isUnprotectedSourcesRequest(httpServletRequest));
-    }
-
-    private boolean isRequestOnUnprotectedHtmlPage(HttpServletRequest request) {
-        if (request.getMethod().equals("GET")) {
-            String page = request.getRequestURI();
-            return page.equals("/signin.html")
-                    || page.equals("/registration.html")
-                    || page.equals("/stomp_chat.html")
-                    || page.equals("/chat_list.html");
-        } else return false;
-    }
-
     private boolean isUnprotectedRestRequest(HttpServletRequest request) {
         return request.getRequestURI().startsWith("/users") && request.getMethod().equals("POST")
                 || request.getRequestURI().startsWith("/login") && request.getMethod().equals("POST")
                 || request.getRequestURI().startsWith("/authHandler") && request.getMethod().equals("GET")
-                || request.getRequestURI().startsWith("/chat") && request.getMethod().equals("GET");
+                || request.getRequestURI().startsWith("/chat") && request.getMethod().equals("GET")
+                || request.getRequestURI().startsWith("/files") && request.getMethod().equals("POST");
     }
 
-    private boolean isUnprotectedSourcesRequest(HttpServletRequest request) {
-        return request.getRequestURI().startsWith("/js") && request.getMethod().equals("GET")
-                || request.getRequestURI().startsWith("/css") && request.getMethod().equals("GET")
-                || request.getRequestURI().endsWith("favicon.ico");
-    }
 }

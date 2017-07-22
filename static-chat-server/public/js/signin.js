@@ -1,6 +1,6 @@
 function login(login, password) {
     $.ajax({
-        url: 'http://localhost:8080/login',
+        url: SERVER_API_URL + '/login',
         type: 'post',
         headers: {
             login: login,
@@ -10,7 +10,7 @@ function login(login, password) {
             token = request.getResponseHeader('Auth-Token');
             document.cookie = "Auth-Token=" + token;
             if (token !== null) {
-                window.location = "http://localhost:8080/chat_list.html";
+                window.location = '/chat_list.html';
             }
         }
     })

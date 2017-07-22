@@ -3,7 +3,7 @@ function addChat(chatName) {
     // засунули данные в JSON
     json["name"] = chatName;
     $.ajax({
-        url: 'http://localhost:8080/chats',
+        url: SERVER_API_URL + 'chats',
         type: 'post',
         contentType: "application/json; charset=utf-8",
         dataType: "json",

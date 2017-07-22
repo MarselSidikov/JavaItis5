@@ -15,13 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan("ru.itis.config")
-public class Application extends SpringBootServletInitializer {
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        // конфигурирует статику
-        return application.sources(Application.class);
-    }
+public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

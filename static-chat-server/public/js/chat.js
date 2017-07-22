@@ -6,7 +6,7 @@ window.onload = doConnect();
 function doConnect() {
     chatId = getUrlVars()['id'];
     // создается объект websocket
-    websocket = new WebSocket("ws://localhost:8080/authHandler");
+    let websocket = new WebSocket(SERVER_WS_URL + '/authHandler');
 
     websocket.onopen = function (evt) {
         token = getCookie("Auth-Token");

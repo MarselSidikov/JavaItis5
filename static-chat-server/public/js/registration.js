@@ -11,11 +11,11 @@ function registration(name, age, login, password) {
     var xhr = new XMLHttpRequest();
     // открыли сессию для запроса
     // true - говорит, что запрос асинхронный
-    xhr.open("POST", "/users", true);
+    xhr.open("POST", SERVER_API_URL + "/users", true);
     // положили заголовки
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     // отправили JSON преобразовав его в строку
     xhr.send(JSON.stringify(json));
     // перенаправляем страничку
-    window.location = "http://localhost:8080/signin.html";
+    window.location = '/signin.html';
 }
