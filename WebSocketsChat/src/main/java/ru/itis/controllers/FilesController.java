@@ -1,5 +1,6 @@
 package ru.itis.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -11,36 +12,34 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import ru.itis.service.FilesService;
 import sun.security.tools.policytool.Resources_es;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @RestController
 public class FilesController {
 
-    private long size;
+    @Autowired
+    private FilesService service;
 
     @PostMapping("/files")
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        try {
-            Files.copy(file.getInputStream(), Paths.get("files", file.getOriginalFilename()));
-            size = file.getSize();
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        String filePath = service.saveFile(file);
+        return ResponseEntity
+                .ok()
+                .body(filePath);
     }
 
     @GetMapping("/files/{file-name:.+}")
     public ResponseEntity<byte[]> getFile(@PathVariable("file-name") String fileName) throws IOException {
         File fromFileSystem = new File("files\\" + fileName);
         long length = fromFileSystem.length();
-        byte bytes[] = new byte[(int) size];
+        byte bytes[] = new byte[100];
         new FileInputStream(fromFileSystem).read(bytes);
         return ResponseEntity
                 .ok()

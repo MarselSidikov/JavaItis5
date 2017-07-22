@@ -49,10 +49,17 @@ function getCookie(name) {
 }
 
 function sendFile(file) {
-    var formData = new FormData();
+    let formData = new FormData();
     formData.append("file", file);
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            alert(xhr.responseText);
+        }
+    };
+
     xhr.open("POST", "http://localhost:8080/files", true);
     xhr.send(formData);
 }
