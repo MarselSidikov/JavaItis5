@@ -61,5 +61,6 @@ function sendFile(file) {
     };
 
     xhr.open("POST", "http://localhost:8080/files", true);
-    xhr.send(formData);
+    xhr.setRequestHeader("Auth-Token", getCookie("Auth-Token"));
+    xhr.send(formData, );
 }

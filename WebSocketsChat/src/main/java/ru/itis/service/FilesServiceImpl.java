@@ -4,21 +4,19 @@ import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.dao.FilesDao;
+import ru.itis.repository.FilesDao;
 import ru.itis.model.File;
 
-import java.io.FilenameFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 
 @Service
 public class FilesServiceImpl implements FilesService {
@@ -69,7 +67,17 @@ public class FilesServiceImpl implements FilesService {
     }
 
     @Override
-    public byte[] getFile(String storageFileName) {
-        return new byte[0];
+    public File getFile(String storageFileName) {
+        return filesDao.findFirstByStorageName(storageFileName);
     }
+
+    @Override
+    public InputStream getFileInputStream(File file) {
+        try {
+            return new FileInputStream(new java.io.File(file.getUrl()));
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
 }

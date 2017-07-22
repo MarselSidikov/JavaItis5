@@ -1,11 +1,9 @@
-package ru.itis.dao;
+package ru.itis.repository;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ru.itis.model.User;
-
-import java.util.List;
 
 /**
  * 25.01.17

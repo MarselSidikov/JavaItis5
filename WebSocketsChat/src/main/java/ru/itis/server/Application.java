@@ -2,9 +2,16 @@ package ru.itis.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import ru.itis.model.Chat;
+import ru.itis.model.File;
+import ru.itis.model.Message;
+import ru.itis.model.User;
 
 /**
  * 25.01.17
@@ -14,11 +21,17 @@ import org.springframework.context.annotation.ComponentScan;
  * @version v1.0
  */
 @SpringBootApplication
-@ComponentScan("ru.itis.config")
+@ComponentScan("ru.itis")
+@EnableJpaRepositories(basePackages = "ru.itis.repository")
+@EntityScan(basePackageClasses = {User.class,
+        File.class,
+        Message.class,
+        Chat.class})
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication springApplication = new SpringApplication();
+        ApplicationContext applicationContext = springApplication.run(Application.class,args);
     }
 
 }

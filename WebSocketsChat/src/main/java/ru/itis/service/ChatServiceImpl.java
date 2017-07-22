@@ -1,22 +1,18 @@
 package ru.itis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
-import ru.itis.dao.ChatsDao;
-import ru.itis.dao.MessagesDao;
-import ru.itis.dao.UsersDao;
+import ru.itis.repository.ChatsDao;
+import ru.itis.repository.MessagesDao;
+import ru.itis.repository.UsersDao;
 import ru.itis.dto.ChatDto;
 import ru.itis.dto.MessageDto;
 import ru.itis.model.Chat;
 import ru.itis.model.Message;
 import ru.itis.model.User;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import ru.itis.dao.UsersDao;
+import ru.itis.repository.UsersDao;
 import ru.itis.model.User;
 
 import java.util.ArrayList;

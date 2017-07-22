@@ -1,20 +1,17 @@
 package ru.itis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.itis.dao.UsersDao;
+import ru.itis.repository.UsersDao;
 import ru.itis.dto.UserDataForRegistrationDto;
 import ru.itis.dto.UserDto;
 import ru.itis.model.User;
 import ru.itis.security.utils.TokenGenerator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static ru.itis.converter.Converter.convert;

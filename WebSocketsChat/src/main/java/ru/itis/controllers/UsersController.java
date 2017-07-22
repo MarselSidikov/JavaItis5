@@ -50,8 +50,6 @@ import java.util.List;
 @RestController
 public class UsersController {
 
-    private Logger logger = LoggerFactory.getLogger(UsersController.class);
-
     @Autowired
     private UsersService usersService;
 
@@ -63,10 +61,6 @@ public class UsersController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestHeader("password") String password,
                                          @RequestHeader("login") String login) {
-        logger.debug("This is a debug message");
-        logger.info("This is an info message");
-        logger.warn("This is a warn message");
-        logger.error("This is an error message");
         String token = usersService.login(password, login);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Auth-Token", token);
